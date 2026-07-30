@@ -7,7 +7,8 @@ dogfood project for the framework and Mado UI.
 
 - Build a frontend, not a backend or a meta-framework.
 - Keep every public route statically capturable with `mado release`.
-- Use explicit routes. Internal links use `routeUrl()` and `data-link`.
+- Use explicit authored routes and generated documentation routes. Internal
+  links use `routeUrl()` and `data-link`.
 - Keep one shared site shell and one `<main data-mado-focus>` landmark.
 - Do not add SSR, server actions, authentication or API routes here.
 
@@ -16,7 +17,13 @@ dogfood project for the framework and Mado UI.
 - Mado owns components, pages, routing, signals and the release pipeline.
 - Mado UI files are copied into `src/styles/`; there is no UI runtime package.
 - This repository owns its shell, brand treatment, copy and editorial layout.
-- Long-form framework reference material stays in the Mado repository.
+- Long-form framework reference material and its navigation manifest stay in
+  the Mado package. Do not fork their copy or ordering into this repository.
+- `src/generated/docs/` is derived from the exact installed Mado package. Edit
+  the generator or upstream documentation, never generated modules by hand.
+- Root `llms.txt` and public `/llms.txt` must remain byte-identical to the
+  installed package file. Use `npm run docs:update` after an intentional Mado
+  version change.
 - The UI catalog stays in the Mado UI repository and will ship separately.
 
 ## Design

@@ -11,9 +11,29 @@ npm install
 npm run dev
 ```
 
-The first public slice contains `/`, `/start`, `/why`, `/proof` and the
-catch-all not-found page. Routes are explicit in `src/app.routes.ts`; the
+The public surface contains `/`, `/start`, `/why`, `/proof`, the complete
+version-matched Mado documentation under `/docs`, `/llms.txt` and the catch-all
+not-found page. Authored and generated routes meet in `src/app.routes.ts`; the
 single document shell lives in `src/site-shell.ts`.
+
+Documentation is compiled from the exact `@madojs/mado` version installed by
+the lockfile. Mado owns the Markdown and its navigation manifest; this
+repository owns the renderer and visual shell. The generated release manifest
+and route modules come from that same validated source: route modules drive
+Mado's static discovery, while the release manifest drives verification. The
+site does not maintain a second hand-written documentation index.
+
+To regenerate from the current lockfile or intentionally accept the `llms.txt`
+copy after a framework update:
+
+```bash
+npm run docs:sync
+npm run docs:update
+```
+
+Normal application commands run the strict sync and fail if the tracked
+`llms.txt` has drifted. `docs:update` is the explicit dependency-update path;
+generated TypeScript and the public copy remain disposable build artifacts.
 
 ## Verify
 
@@ -24,10 +44,12 @@ npm run verify:release
 npm run preview
 ```
 
-`npm run build` checks the live Vite application. `npm run release` additionally
-captures every public route in a browser and writes the deployable artifact to
-`out/`. The release verifier checks route HTML, canonical metadata, the noindex
-404 shell and Cloudflare-safe redirects.
+The npm lifecycle regenerates documentation before application commands.
+`npm run build` checks the live Vite application. `npm run release`
+additionally captures every public route in a browser and writes the deployable
+artifact to `out/`. The release verifier checks every generated documentation
+route, exact headings and metadata, the sitemap, package provenance for
+`llms.txt`, the noindex 404 shell and Cloudflare-safe packaging.
 
 ## UI source
 

@@ -2,6 +2,8 @@ import { render } from "@madojs/mado";
 import "./styles/mado-ui-theme.css";
 import "./styles/mado-ui-button.css";
 import "./styles/mado-ui-code.css";
+import "./styles/mado-ui-breadcrumbs.css";
+import "./styles/mado-ui-disclosure.css";
 import "./styles/mado-ui-layout.css";
 import "./styles/mado-ui-navigation-list.css";
 import "./styles/mado-ui-page-header.css";
@@ -10,6 +12,7 @@ import "./styles/mado-ui-content-state.css";
 import "./styles/foundation.css";
 import "./styles/shell.css";
 import "./styles/content.css";
+import "./styles/docs.css";
 
 import { siteShell } from "./site-shell";
 

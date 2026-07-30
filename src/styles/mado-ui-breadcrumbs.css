@@ -1,0 +1,145 @@
+/*
+ * <nav class="mado-ui-breadcrumbs" aria-label="Breadcrumb">
+ *   <ol class="mado-ui-breadcrumbs-list">
+ *     <li class="mado-ui-breadcrumbs-item">
+ *       <a class="mado-ui-breadcrumbs-link" href="/">Home</a>
+ *     </li>
+ *     <li class="mado-ui-breadcrumbs-item">
+ *       <span aria-current="page">Settings</span>
+ *     </li>
+ *   </ol>
+ * </nav>
+ *
+ * The application owns URLs, the localized landmark name and exactly one
+ * current-page marker. The logical borders are visual separators only.
+ */
+@layer mado-ui {
+  :where(
+    .mado-ui-breadcrumbs,
+    .mado-ui-breadcrumbs-list,
+    .mado-ui-breadcrumbs-item,
+    .mado-ui-breadcrumbs-link
+  ) {
+    box-sizing: border-box;
+  }
+
+  :where(.mado-ui-breadcrumbs) {
+    min-inline-size: 0;
+    max-inline-size: 100%;
+    color: var(
+      --mado-ui-breadcrumbs-color,
+      var(--mado-ui-color-text-muted, oklch(0.46 0.014 264.4))
+    );
+    font-size: var(--mado-ui-breadcrumbs-font-size, 0.875rem);
+    line-height: 1.5;
+  }
+
+  :where(.mado-ui-breadcrumbs-list) {
+    display: flex;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: var(
+      --mado-ui-breadcrumbs-gap,
+      var(--mado-ui-space-2, 0.5rem)
+    );
+    row-gap: var(
+      --mado-ui-breadcrumbs-row-gap,
+      var(--mado-ui-space-1, 0.25rem)
+    );
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  :where(.mado-ui-breadcrumbs-item) {
+    display: inline-flex;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+    align-items: center;
+    overflow-wrap: anywhere;
+  }
+
+  :where(
+    .mado-ui-breadcrumbs-item + .mado-ui-breadcrumbs-item
+  ) {
+    padding-inline-start: var(
+      --mado-ui-breadcrumbs-gap,
+      var(--mado-ui-space-2, 0.5rem)
+    );
+    border-inline-start: 1px solid
+      var(
+        --mado-ui-breadcrumbs-separator-color,
+        var(--mado-ui-color-border, oklch(0.9 0.006 264.5))
+      );
+  }
+
+  :where(
+    .mado-ui-breadcrumbs-link,
+    .mado-ui-breadcrumbs-item > [aria-current="page"]
+  ) {
+    min-inline-size: 0;
+    max-inline-size: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  :where(.mado-ui-breadcrumbs-link) {
+    border-radius: var(--mado-ui-radius-sm, 0.5rem);
+    color: var(
+      --mado-ui-breadcrumbs-link-color,
+      var(--mado-ui-color-action, oklch(0.205 0.006 285.9))
+    );
+    font: inherit;
+    font-weight: 500;
+    text-decoration-line: underline;
+    text-decoration-color: color-mix(in oklch, currentColor 45%, transparent);
+    text-decoration-thickness: 0.06em;
+    text-underline-offset: 0.22em;
+  }
+
+  :where(
+    .mado-ui-breadcrumbs-item > [aria-current="page"]
+  ) {
+    color: var(
+      --mado-ui-breadcrumbs-current-color,
+      var(--mado-ui-color-text, oklch(0.205 0.006 285.9))
+    );
+    font-weight: 650;
+    text-decoration-line: none;
+  }
+
+  :where(.mado-ui-breadcrumbs-link:focus-visible) {
+    outline: 2px solid
+      var(--mado-ui-color-action, oklch(0.205 0.006 285.9));
+    outline-offset: 3px;
+    box-shadow: var(
+      --mado-ui-focus-ring,
+      0 0 0 3px oklch(0.205 0.006 285.9 / 0.24)
+    );
+  }
+
+  @media (hover: hover) {
+    :where(.mado-ui-breadcrumbs-link:hover) {
+      color: var(
+        --mado-ui-breadcrumbs-link-hover-color,
+        var(--mado-ui-color-action-hover, oklch(0.269 0.006 285.9))
+      );
+    }
+  }
+
+  @media (forced-colors: active) {
+    :where(.mado-ui-breadcrumbs) {
+      --mado-ui-breadcrumbs-color: CanvasText;
+      --mado-ui-breadcrumbs-link-color: LinkText;
+      --mado-ui-breadcrumbs-link-hover-color: LinkText;
+      --mado-ui-breadcrumbs-current-color: CanvasText;
+      --mado-ui-breadcrumbs-separator-color: CanvasText;
+    }
+
+    :where(.mado-ui-breadcrumbs-link:focus-visible) {
+      outline-color: Highlight;
+      box-shadow: none;
+    }
+  }
+}

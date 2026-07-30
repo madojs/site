@@ -4,14 +4,6 @@ This log separates framework/library friction from site product work.
 
 ## Open
 
-### Mado starter positioning is inconsistent
-
-The generated universal starter README describes the modular starter as the
-reference architecture for long-lived business applications. Mado's current
-maturity roadmap describes it as an optional architecture experiment. Those two
-contracts should agree, especially because both people and coding agents treat
-starter text as product guidance.
-
 ### Cloudflare Workers and the default `_redirects`
 
 `mado release` generates `/* /_mado/spa.html 200` when no `_redirects` file is
@@ -29,13 +21,9 @@ Mado also precompresses every text asset and emits an HTML `/*.html` headers
 rule. Workers compresses at the edge, so this site excludes `.br` and `.gz`
 copies with `.assetsignore`; clean public paths such as `/start` do not match
 the generated HTML rule, although Workers' default revalidation policy remains
-safe. Both details belong in a future target-specific release adapter.
-
-The release artifact also contains `.mado-output`, an ownership marker whose
-`projectRoot` is an absolute build-machine path. Wrangler treats it as a public
-asset unless the project excludes it. This site adds `.mado-output` to
-`.assetsignore` and verifies the rule; Mado should eventually keep internal
-artifact metadata outside the public asset tree or exclude it by default.
+safe. The site also excludes the path-free `.mado-output` ownership marker
+because build metadata is not a public asset. These provider-specific details
+belong in a future target-specific release adapter.
 
 ### Mado UI has no remove command
 
@@ -50,3 +38,21 @@ experimentation and dependency-closure cleanup less error-prone.
 - Only the CSS recipes used by the first site slice remain installed.
 - The site shell owns brand and editorial styling rather than stretching a UI
   application-shell template into a marketing layout.
+- Mado 0.15 aligns the default and modular starter descriptions: the universal
+  starter is canonical and the modular starter remains an optional architecture
+  experiment.
+- Framework documentation is generated from the exact installed Mado package
+  instead of copied into this repository. Mado 0.15 supplies the versioned
+  navigation manifest needed to make that boundary deterministic.
+- Mado 0.15.2 publicly exports `./package.json`, so the generator and release
+  verifier resolve package identity and version without depending on the
+  physical npm layout.
+- Mado 0.15.2 reduces `.mado-output` to an owner-only marker. Absolute
+  build-machine paths can no longer leak into a deployable artifact; the site
+  still excludes the internal marker from the Cloudflare upload.
+- Dogfooding caught non-portable backslash-escaped backticks in framework
+  Markdown and AI instruction assets. Mado 0.15.2 fixes the published text and
+  adds a CommonMark-aware lint regression.
+- `/llms.txt` is copied byte-for-byte from the installed package and checked in
+  the release artifact. The website no longer carries an independently edited
+  LLM guide that can lag behind the framework release.

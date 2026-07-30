@@ -4,8 +4,9 @@ import { appRoutes } from "./app.routes";
 
 interface InternalNavigationItem {
   label: string;
-  path: "/" | "/start" | "/why" | "/proof";
+  path: "/" | "/start" | "/why" | "/proof" | "/docs";
   kind: "internal";
+  match?: "exact" | "prefix";
 }
 
 interface ExternalNavigationItem {
@@ -18,6 +19,7 @@ type NavigationItem = InternalNavigationItem | ExternalNavigationItem;
 
 const navigationItems: NavigationItem[] = [
   { label: "Start", path: "/start", kind: "internal" },
+  { label: "Docs", path: "/docs", kind: "internal", match: "prefix" },
   { label: "Why Mado", path: "/why", kind: "internal" },
   { label: "Proof", path: "/proof", kind: "internal" },
   {
@@ -35,8 +37,17 @@ const navigationItems: NavigationItem[] = [
 const normalizePath = (path: string): string =>
   path.length > 1 ? path.replace(/\/+$/, "") : path;
 
-const ariaCurrent = (path: string) => (): "page" | null =>
-  normalizePath(appRoutes.path()) === normalizePath(path) ? "page" : null;
+const ariaCurrent = (
+  path: string,
+  match: "exact" | "prefix" = "exact",
+) => (): "page" | null => {
+  const current = normalizePath(appRoutes.path());
+  const target = normalizePath(path);
+  const matches = match === "prefix"
+    ? current === target || current.startsWith(`${target}/`)
+    : current === target;
+  return matches ? "page" : null;
+};
 
 const closeMobileNavigation = (): void => {
   const menu = document.querySelector<HTMLElement & {
@@ -65,7 +76,7 @@ const navigation = (
                   class="mado-ui-navigation-list-link"
                   data-link
                   href=${routeUrl(item.path)}
-                  aria-current=${ariaCurrent(item.path)}
+                  aria-current=${ariaCurrent(item.path, item.match)}
                   @click=${closeOnNavigate ? closeMobileNavigation : null}
                 >
                   ${item.label}
@@ -141,7 +152,8 @@ export const siteShell = (): TemplateResult => html`
               Navigate Mado
             </h2>
             <p class="mado-ui-popover-description">
-              Framework principles, the verified start and inspectable proof.
+              Framework principles, versioned documentation and inspectable
+              proof.
             </p>
           </header>
           <div class="mado-ui-popover-content">
@@ -185,6 +197,7 @@ export const siteShell = (): TemplateResult => html`
         <nav class="site-footer-links" aria-label="Project">
           <h2>Project</h2>
           <a data-link href=${routeUrl("/start")}>Start building</a>
+          <a data-link href=${routeUrl("/docs")}>Documentation</a>
           <a data-link href=${routeUrl("/why")}>Why Mado</a>
           <a data-link href=${routeUrl("/proof")}>Proof</a>
         </nav>

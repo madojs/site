@@ -1,11 +1,13 @@
-import { readdirSync } from "node:fs";
-import { resolve } from "node:path";
+import { readFileSync, readdirSync } from "node:fs";
+import { join, resolve } from "node:path";
 
 const baseUrl = process.env.MADO_EDGE_URL ?? "http://127.0.0.1:8791";
-const outAssets = resolve(import.meta.dirname, "../out/assets");
+const root = resolve(import.meta.dirname, "..");
+const outAssets = join(root, "out/assets");
 const attempts = positiveInteger(process.env.MADO_EDGE_ATTEMPTS, 1);
 const retryMs = positiveInteger(process.env.MADO_EDGE_RETRY_MS, 1_000);
 const expectedCommit = process.env.MADO_EDGE_COMMIT;
+const docsRoutes = readDocsRoutes();
 
 const fail = (message) => {
   throw new Error(`[site edge] ${message}`);
@@ -42,26 +44,43 @@ for (let attempt = 1; attempt <= attempts; attempt += 1) {
 }
 
 async function verifyEdge() {
-  for (const [pathname, copy] of [
+  const publicRoutes = [
     ["/", "A frontend framework you can own."],
     ["/start", "From an empty directory to a running Mado app."],
     ["/why", "Frontend infrastructure should not become the product."],
     ["/proof", "The claims are inspectable."],
-  ]) {
+    ...docsRoutes.map((route) => [route.path, route.title]),
+  ];
+
+  for (const [pathname, title] of publicRoutes) {
     const result = await request(pathname);
     expectStatus(result, 200, pathname);
-    if (!result.body.includes(copy)) {
+    if (exactH1(result.body) !== title) {
       fail(`${pathname} did not serve its captured document`);
+    }
+    if (
+      pathname.startsWith("/docs") &&
+      !result.body.includes("data-docs-document")
+    ) {
+      fail(`${pathname} did not serve the captured documentation article`);
     }
   }
 
-  const trailingSlash = await request("/start/");
-  if (![301, 302, 307, 308].includes(trailingSlash.response.status)) {
-    fail(`/start/ returned ${trailingSlash.response.status}, expected redirect`);
-  }
-  const redirectLocation = trailingSlash.response.headers.get("location");
-  if (redirectLocation !== "/start") {
-    fail(`/start/ redirected to ${String(redirectLocation)}, expected /start`);
+  for (const pathname of ["/start", "/docs"]) {
+    const trailingSlash = await request(`${pathname}/`);
+    if (![301, 302, 307, 308].includes(trailingSlash.response.status)) {
+      fail(
+        `${pathname}/ returned ${trailingSlash.response.status}, ` +
+          "expected redirect",
+      );
+    }
+    const redirectLocation = trailingSlash.response.headers.get("location");
+    if (redirectLocation !== pathname) {
+      fail(
+        `${pathname}/ redirected to ${String(redirectLocation)}, ` +
+          `expected ${pathname}`,
+      );
+    }
   }
 
   const entryScript = readdirSync(outAssets).find(
@@ -81,6 +100,13 @@ async function verifyEdge() {
 
   const missingAsset = await request("/missing.js");
   expectStatus(missingAsset, 404, "/missing.js");
+
+  const llms = await request("/llms.txt");
+  expectStatus(llms, 200, "/llms.txt");
+  const expectedLlms = readFileSync(join(root, "out/llms.txt"), "utf8");
+  if (llms.body !== expectedLlms) {
+    fail("/llms.txt differs from the verified release artifact");
+  }
 
   const unknown = await request("/route-that-does-not-exist");
   expectStatus(unknown, 404, "/route-that-does-not-exist");
@@ -118,7 +144,91 @@ async function verifyEdge() {
   }
 
   console.log(
-    `[site edge] verified static routes, trailing-slash policy, assets and 404 at ${baseUrl}`,
+    `[site edge] verified ${publicRoutes.length} static routes, llms.txt, ` +
+      `trailing-slash policy, assets and 404 at ${baseUrl}`,
+  );
+}
+
+function readDocsRoutes() {
+  const path = join(root, "src/generated/docs/release-manifest.json");
+  let manifest;
+  try {
+    manifest = JSON.parse(readFileSync(path, "utf8"));
+  } catch (error) {
+    throw new Error(
+      `[site edge] could not read documentation release manifest: ${error.message}`,
+    );
+  }
+  if (manifest.schemaVersion !== 1) {
+    throw new Error(
+      `[site edge] unsupported documentation manifest schema ${String(
+        manifest.schemaVersion,
+      )}`,
+    );
+  }
+
+  const documents = Array.isArray(manifest.routes)
+    ? manifest.routes
+    : manifest.documents;
+  if (!Array.isArray(documents) || documents.length === 0) {
+    throw new Error("[site edge] documentation manifest contains no documents");
+  }
+  const candidates = [...(manifest.home ? [manifest.home] : []), ...documents];
+  const routes = [];
+  const seen = new Set();
+  for (const [index, entry] of candidates.entries()) {
+    const path = entry?.path ?? entry?.route;
+    if (
+      typeof path !== "string" ||
+      !/^\/docs(?:\/[a-z0-9]+(?:[.-][a-z0-9]+)*)*$/.test(path)
+    ) {
+      throw new Error(
+        `[site edge] documentation entry ${index} has invalid route ${String(
+          path,
+        )}`,
+      );
+    }
+    if (typeof entry.title !== "string" || entry.title.trim() === "") {
+      throw new Error(
+        `[site edge] documentation route ${path} has no title`,
+      );
+    }
+    if (!seen.has(path)) routes.push({ path, title: entry.title });
+    seen.add(path);
+  }
+  if (!seen.has("/docs")) {
+    throw new Error("[site edge] documentation manifest does not declare /docs");
+  }
+  return routes;
+}
+
+function exactH1(html) {
+  const matches = [...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)];
+  if (matches.length !== 1) return undefined;
+  return decodeHtml(
+    matches[0][1].replace(/<br\s*\/?>/gi, " ").replace(/<[^>]*>/g, ""),
+  )
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function decodeHtml(value) {
+  return value.replace(
+    /&(?:#(\d+)|#x([0-9a-f]+)|([a-z]+));/gi,
+    (entity, decimal, hexadecimal, named) => {
+      if (decimal) return String.fromCodePoint(Number.parseInt(decimal, 10));
+      if (hexadecimal) {
+        return String.fromCodePoint(Number.parseInt(hexadecimal, 16));
+      }
+      return {
+        amp: "&",
+        apos: "'",
+        gt: ">",
+        lt: "<",
+        nbsp: "\u00a0",
+        quot: '"',
+      }[named.toLowerCase()] ?? entity;
+    },
   );
 }
 

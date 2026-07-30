@@ -1,0 +1,171 @@
+/*
+ * Standalone disclosure:
+ *
+ * <details class="mado-ui-disclosure">
+ *   <summary class="mado-ui-disclosure-summary">
+ *     Can I edit the installed source?
+ *   </summary>
+ *   <div class="mado-ui-disclosure-content">
+ *     <p>Yes. The copied files belong to the application.</p>
+ *   </div>
+ * </details>
+ *
+ * Exclusive group:
+ *
+ * <div class="mado-ui-disclosure-group">
+ *   <details class="mado-ui-disclosure" name="project-faq" open>
+ *     <summary class="mado-ui-disclosure-summary">First question</summary>
+ *     <div class="mado-ui-disclosure-content">First answer.</div>
+ *   </details>
+ *   <details class="mado-ui-disclosure" name="project-faq">
+ *     <summary class="mado-ui-disclosure-summary">Second question</summary>
+ *     <div class="mado-ui-disclosure-content">Second answer.</div>
+ *   </details>
+ * </div>
+ *
+ * The first summary owns native activation, keyboard behavior and expanded
+ * state. A shared, non-empty name makes the details elements exclusive.
+ */
+@layer mado-ui {
+  :where(
+    details.mado-ui-disclosure,
+    .mado-ui-disclosure-summary,
+    .mado-ui-disclosure-content,
+    .mado-ui-disclosure-group
+  ) {
+    box-sizing: border-box;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+  }
+
+  :where(details.mado-ui-disclosure) {
+    border: 1px solid
+      var(
+        --mado-ui-disclosure-border,
+        var(--mado-ui-color-border, oklch(0.9 0.006 264.5))
+      );
+    border-radius: var(
+      --mado-ui-disclosure-radius,
+      var(--mado-ui-radius-md, 0.75rem)
+    );
+    background: var(
+      --mado-ui-disclosure-background,
+      var(--mado-ui-color-surface, oklch(1 0 0))
+    );
+    color: var(
+      --mado-ui-disclosure-color,
+      var(--mado-ui-color-text, oklch(0.205 0.006 285.9))
+    );
+    box-shadow: var(--mado-ui-disclosure-shadow, none);
+    font: inherit;
+  }
+
+  :where(
+    details.mado-ui-disclosure >
+      summary.mado-ui-disclosure-summary
+  ) {
+    display: list-item;
+    min-block-size: var(--mado-ui-disclosure-summary-min-block-size, 3rem);
+    padding: var(
+      --mado-ui-disclosure-summary-padding,
+      var(--mado-ui-space-4, 1rem)
+    );
+    border-radius: inherit;
+    background: var(--mado-ui-disclosure-summary-background, transparent);
+    color: var(--mado-ui-disclosure-summary-color, inherit);
+    cursor: pointer;
+    font-weight: var(--mado-ui-disclosure-summary-font-weight, 600);
+    line-height: 1.45;
+    list-style-position: inside;
+    overflow-wrap: anywhere;
+    text-align: start;
+    text-wrap: pretty;
+  }
+
+  :where(
+    details.mado-ui-disclosure >
+      summary.mado-ui-disclosure-summary
+  )::marker {
+    color: var(--mado-ui-disclosure-indicator-color, currentColor);
+    font-size: var(--mado-ui-disclosure-indicator-size, 0.8em);
+  }
+
+  :where(
+    details.mado-ui-disclosure[open] >
+      summary.mado-ui-disclosure-summary
+  ) {
+    border-end-start-radius: 0;
+    border-end-end-radius: 0;
+    border-block-end: 1px solid
+      var(
+        --mado-ui-disclosure-border,
+        var(--mado-ui-color-border, oklch(0.9 0.006 264.5))
+      );
+  }
+
+  :where(
+    details.mado-ui-disclosure >
+      summary.mado-ui-disclosure-summary:focus-visible
+  ) {
+    outline: 2px solid
+      var(
+        --mado-ui-disclosure-focus,
+        var(--mado-ui-color-action, oklch(0.205 0.006 285.9))
+      );
+    outline-offset: -3px;
+  }
+
+  :where(.mado-ui-disclosure-content) {
+    padding: var(
+      --mado-ui-disclosure-content-padding,
+      var(--mado-ui-space-4, 1rem)
+    );
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+  }
+
+  :where(.mado-ui-disclosure-content > *) {
+    margin-block: 0;
+  }
+
+  :where(.mado-ui-disclosure-content > * + *) {
+    margin-block-start: var(
+      --mado-ui-disclosure-content-gap,
+      var(--mado-ui-space-3, 0.75rem)
+    );
+  }
+
+  :where(.mado-ui-disclosure-group) {
+    display: grid;
+    gap: var(
+      --mado-ui-disclosure-group-gap,
+      var(--mado-ui-space-2, 0.5rem)
+    );
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    :where(
+      details.mado-ui-disclosure >
+        summary.mado-ui-disclosure-summary:hover
+    ) {
+      background: var(
+        --mado-ui-disclosure-summary-hover-background,
+        var(--mado-ui-color-surface-soft, oklch(0.967 0.003 264.5))
+      );
+    }
+  }
+
+  @media (forced-colors: active) {
+    :where(details.mado-ui-disclosure) {
+      --mado-ui-disclosure-background: Canvas;
+      --mado-ui-disclosure-border: CanvasText;
+      --mado-ui-disclosure-color: CanvasText;
+      --mado-ui-disclosure-focus: Highlight;
+      --mado-ui-disclosure-indicator-color: CanvasText;
+      --mado-ui-disclosure-shadow: none;
+      --mado-ui-disclosure-summary-background: Canvas;
+      --mado-ui-disclosure-summary-color: CanvasText;
+      --mado-ui-disclosure-summary-hover-background: Canvas;
+    }
+  }
+}

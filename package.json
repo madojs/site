@@ -7,13 +7,15 @@
     "node": "24.x"
   },
   "scripts": {
-    "dev": "mado dev",
-    "build": "mado build",
-    "typecheck": "mado typecheck",
-    "test": "npm run typecheck && npm run test:browser",
-    "test:browser": "node test/browser/site.browser.mjs",
-    "verify": "npm run typecheck && npm run build",
-    "release": "mado release",
+    "docs:sync": "node scripts/sync-framework-docs.mjs",
+    "docs:update": "node scripts/sync-framework-docs.mjs --update-llms",
+    "dev": "npm run docs:sync && mado dev",
+    "build": "npm run docs:sync && mado build",
+    "typecheck": "npm run docs:sync && mado typecheck",
+    "test": "npm run docs:sync && mado typecheck && node test/browser/site.browser.mjs",
+    "test:browser": "npm run docs:sync && node test/browser/site.browser.mjs",
+    "verify": "npm run docs:sync && mado typecheck && mado build",
+    "release": "npm run docs:sync && mado release",
     "verify:release": "node scripts/verify-release.mjs",
     "verify:edge": "node scripts/verify-edge.mjs",
     "preview": "mado preview",
@@ -22,10 +24,11 @@
     "new": "mado new"
   },
   "dependencies": {
-    "@madojs/mado": "^0.14.3"
+    "@madojs/mado": "0.15.2"
   },
   "devDependencies": {
     "@types/node": "^22.12.0",
+    "marked": "18.0.7",
     "playwright-core": "^1.61.1",
     "typescript": "^7.0.2",
     "vite": "^8.1.4",

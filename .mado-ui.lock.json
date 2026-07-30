@@ -2,6 +2,15 @@
   "version": 1,
   "registryCompatibility": 1,
   "items": {
+    "breadcrumbs": {
+      "registryVersion": "0.1.2",
+      "files": {
+        "src/styles/mado-ui-breadcrumbs.css": {
+          "source": "blocks/breadcrumbs/mado-ui-breadcrumbs.css",
+          "hash": "f9fce68ef42565cc783f4ed19102cb36749b51e432b0eb80343491c9a6ea0885"
+        }
+      }
+    },
     "button": {
       "registryVersion": "0.1.1",
       "files": {
@@ -26,6 +35,15 @@
         "src/styles/mado-ui-content-state.css": {
           "source": "blocks/content-state/mado-ui-content-state.css",
           "hash": "8d34b693f079157416add071eed2f6acf50965be176a3ab4a886259decff3e80"
+        }
+      }
+    },
+    "disclosure": {
+      "registryVersion": "0.1.2",
+      "files": {
+        "src/styles/mado-ui-disclosure.css": {
+          "source": "primitives/disclosure/mado-ui-disclosure.css",
+          "hash": "a892e6d85a5b44be395cf754a155fa174fbeb07e30b1438b805ec9bb40f35bc6"
         }
       }
     },
@@ -66,7 +84,7 @@
       }
     },
     "theme": {
-      "registryVersion": "0.1.1",
+      "registryVersion": "0.1.2",
       "files": {
         "src/styles/mado-ui-theme.css": {
           "source": "foundation/mado-ui-theme.css",

@@ -3,6 +3,14 @@ dist
 out
 .cache
 .wrangler
+llms.txt.previous-*
+llms.txt.tmp-*
+public/llms.txt
+public/llms.txt.previous-*
+public/llms.txt.tmp-*
+src/generated/.docs-*
+src/generated/docs/
+src/generated/docs.previous-*
 .env
 .env.*
 !.env.example

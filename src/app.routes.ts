@@ -1,10 +1,19 @@
-import { html, routeUrl, routes } from "@madojs/mado";
+import { html, layout, routeUrl, routes } from "@madojs/mado";
+
+import { docsRoutes } from "./generated/docs/routes";
 
 export const manifest = {
   "/": () => import("./pages/home.page"),
   "/start": () => import("./pages/start.page"),
   "/why": () => import("./pages/why.page"),
   "/proof": () => import("./pages/proof.page"),
+  "/docs": layout({
+    layout: () => import("./docs/docs-layout.page"),
+    routes: {
+      "/": () => import("./docs/docs-home.page"),
+      ...docsRoutes,
+    },
+  }),
   "*": () => import("./pages/not-found.page"),
 };
 
