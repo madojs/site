@@ -64,8 +64,10 @@
 }
 
 .proof-console-body strong {
+  min-inline-size: 0;
   color: var(--site-dark-text);
   font-weight: 500;
+  overflow-wrap: anywhere;
 }
 
 .proof-console-body i {
@@ -196,7 +198,13 @@
   }
 
   .proof-console-body strong {
-    display: none;
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .proof-console-body i {
+    grid-column: 2;
+    grid-row: 1;
   }
 }
 

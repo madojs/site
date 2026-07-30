@@ -13,7 +13,8 @@ npm run dev
 
 The public surface contains `/`, `/start`, `/why`, `/proof`, the complete
 version-matched Mado documentation under `/docs`, `/llms.txt` and the catch-all
-not-found page. Authored and generated routes meet in `src/app.routes.ts`; the
+not-found page. The source-owned authored route map lives in
+`src/authored-routes.ts` and meets generated routes in `src/app.routes.ts`; the
 single document shell lives in `src/site-shell.ts`.
 
 Documentation is compiled from the exact `@madojs/mado` version installed by
@@ -21,7 +22,9 @@ the lockfile. Mado owns the Markdown and its navigation manifest; this
 repository owns the renderer and visual shell. The generated release manifest
 and route modules come from that same validated source: route modules drive
 Mado's static discovery, while the release manifest drives verification. The
-site does not maintain a second hand-written documentation index.
+generator also emits the proof-page rows from those routes, the exact installed
+Mado package and the tracked Mado UI lock. The site does not maintain a second
+hand-written documentation index or route-count display.
 
 To regenerate from the current lockfile or intentionally accept the `llms.txt`
 copy after a framework update:

@@ -1,12 +1,10 @@
 import { html, layout, routeUrl, routes } from "@madojs/mado";
 
+import { authoredRoutes } from "./authored-routes";
 import { docsRoutes } from "./generated/docs/routes";
 
 export const manifest = {
-  "/": () => import("./pages/home.page"),
-  "/start": () => import("./pages/start.page"),
-  "/why": () => import("./pages/why.page"),
-  "/proof": () => import("./pages/proof.page"),
+  ...authoredRoutes,
   "/docs": layout({
     layout: () => import("./docs/docs-layout.page"),
     routes: {

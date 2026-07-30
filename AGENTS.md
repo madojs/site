@@ -9,6 +9,9 @@ dogfood project for the framework and Mado UI.
 - Keep every public route statically capturable with `mado release`.
 - Use explicit authored routes and generated documentation routes. Internal
   links use `routeUrl()` and `data-link`.
+- Add source-owned route loaders to `src/authored-routes.ts`;
+  `src/app.routes.ts` combines that map with generated documentation and the
+  wildcard fallback.
 - Keep one shared site shell and one `<main data-mado-focus>` landmark.
 - Do not add SSR, server actions, authentication or API routes here.
 
@@ -20,7 +23,8 @@ dogfood project for the framework and Mado UI.
 - Long-form framework reference material and its navigation manifest stay in
   the Mado package. Do not fork their copy or ordering into this repository.
 - `src/generated/docs/` is derived from the exact installed Mado package. Edit
-  the generator or upstream documentation, never generated modules by hand.
+  the generator, authored route map, UI lock or upstream documentation, never
+  generated modules and proof rows by hand.
 - Root `llms.txt` and public `/llms.txt` must remain byte-identical to the
   installed package file. Use `npm run docs:update` after an intentional Mado
   version change.

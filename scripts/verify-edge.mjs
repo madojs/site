@@ -1,5 +1,13 @@
 import { readFileSync, readdirSync } from "node:fs";
+import { createRequire } from "node:module";
 import { join, resolve } from "node:path";
+
+import {
+  createProofContract,
+  proofDisplayRows,
+  RELEASE_MANIFEST_SCHEMA_VERSION,
+} from "./proof-contract.mjs";
+import { authoredRoutes } from "../src/authored-routes.ts";
 
 const baseUrl = process.env.MADO_EDGE_URL ?? "http://127.0.0.1:8791";
 const root = resolve(import.meta.dirname, "..");
@@ -7,7 +15,8 @@ const outAssets = join(root, "out/assets");
 const attempts = positiveInteger(process.env.MADO_EDGE_ATTEMPTS, 1);
 const retryMs = positiveInteger(process.env.MADO_EDGE_RETRY_MS, 1_000);
 const expectedCommit = process.env.MADO_EDGE_COMMIT;
-const docsRoutes = readDocsRoutes();
+const releaseContract = readReleaseContract();
+const docsRoutes = releaseContract.docsRoutes;
 
 const fail = (message) => {
   throw new Error(`[site edge] ${message}`);
@@ -63,6 +72,9 @@ async function verifyEdge() {
       !result.body.includes("data-docs-document")
     ) {
       fail(`${pathname} did not serve the captured documentation article`);
+    }
+    if (pathname === "/proof") {
+      assertRenderedProof(result.body, releaseContract.proof);
     }
   }
 
@@ -144,12 +156,12 @@ async function verifyEdge() {
   }
 
   console.log(
-    `[site edge] verified ${publicRoutes.length} static routes, llms.txt, ` +
-      `trailing-slash policy, assets and 404 at ${baseUrl}`,
+    `[site edge] verified ${publicRoutes.length} public static routes, ` +
+      `llms.txt, trailing-slash policy, assets and 404 at ${baseUrl}`,
   );
 }
 
-function readDocsRoutes() {
+function readReleaseContract() {
   const path = join(root, "src/generated/docs/release-manifest.json");
   let manifest;
   try {
@@ -159,7 +171,7 @@ function readDocsRoutes() {
       `[site edge] could not read documentation release manifest: ${error.message}`,
     );
   }
-  if (manifest.schemaVersion !== 1) {
+  if (manifest.schemaVersion !== RELEASE_MANIFEST_SCHEMA_VERSION) {
     throw new Error(
       `[site edge] unsupported documentation manifest schema ${String(
         manifest.schemaVersion,
@@ -199,7 +211,66 @@ function readDocsRoutes() {
   if (!seen.has("/docs")) {
     throw new Error("[site edge] documentation manifest does not declare /docs");
   }
-  return routes;
+
+  const require = createRequire(import.meta.url);
+  const installedPackage = JSON.parse(
+    readFileSync(require.resolve("@madojs/mado/package.json"), "utf8"),
+  );
+  const proof = createProofContract({
+    authoredRoutePaths: Object.keys(authoredRoutes),
+    documentationRoutePaths: routes.map((route) => route.path),
+    framework: {
+      package: "@madojs/mado",
+      version: installedPackage.version,
+      tag: `v${installedPackage.version}`,
+      repository: "https://github.com/madojs/mado",
+      metadata: "@madojs/mado/package.json",
+    },
+    root,
+  });
+  if (JSON.stringify(manifest.proof) !== JSON.stringify(proof)) {
+    throw new Error(
+      "[site edge] generated proof contract differs from local release inputs",
+    );
+  }
+  return { docsRoutes: routes, proof };
+}
+
+function assertRenderedProof(html, proof) {
+  const section = html.match(
+    /<section\b[^>]*\bdata-proof-contract=["']([^"']+)["'][^>]*>/i,
+  );
+  if (section?.[1] !== String(proof.schemaVersion)) {
+    fail("/proof served a stale proof contract schema");
+  }
+
+  const renderedRows = [...html.matchAll(
+    /<p\b([^>]*\bdata-proof-row(?:\s*=|\b)[^>]*)>([\s\S]*?)<\/p>/giu,
+  )];
+  const expectedRows = proofDisplayRows(proof);
+  if (renderedRows.length !== expectedRows.length) {
+    fail(
+      `/proof served ${renderedRows.length} proof rows, ` +
+        `expected ${expectedRows.length}`,
+    );
+  }
+  for (const expected of expectedRows) {
+    const matching = renderedRows.find(
+      ([, attributes]) =>
+        attribute(attributes, "data-proof-row") === expected.id,
+    );
+    if (
+      !matching ||
+      decodeHtml(attribute(matching[1], "data-proof-value") ?? "") !==
+        expected.value ||
+      decodeHtml(attribute(matching[1], "data-proof-status") ?? "") !==
+        expected.status ||
+      normalizeText(matching[2]) !==
+        `${expected.label} ${expected.value} ${expected.status}`
+    ) {
+      fail(`/proof served stale content for ${expected.id}`);
+    }
+  }
 }
 
 function exactH1(html) {
@@ -230,6 +301,19 @@ function decodeHtml(value) {
       }[named.toLowerCase()] ?? entity;
     },
   );
+}
+
+function attribute(tag, name) {
+  const match = tag.match(
+    new RegExp(`(?:^|\\s)${name}\\s*=\\s*(?:"([^"]*)"|'([^']*)')`, "i"),
+  );
+  return match?.[1] ?? match?.[2];
+}
+
+function normalizeText(value) {
+  return decodeHtml(
+    value.replace(/<br\s*\/?>/gi, " ").replace(/<[^>]*>/g, ""),
+  ).replace(/\s+/g, " ").trim();
 }
 
 function positiveInteger(value, fallback) {

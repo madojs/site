@@ -1,12 +1,22 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import { createRequire } from "node:module";
 import { join, resolve } from "node:path";
 
 import { chromium } from "playwright-core";
 import { createServer } from "vite";
 
+import {
+  createProofContract,
+  proofDisplayRows,
+  RELEASE_MANIFEST_SCHEMA_VERSION,
+} from "../../scripts/proof-contract.mjs";
+import { authoredRoutes } from "../../src/authored-routes.ts";
+
 const root = resolve(import.meta.dirname, "../..");
-const docsRoutes = readDocsRoutes();
+const releaseContract = readReleaseContract();
+const docsRoutes = releaseContract.docsRoutes;
+const expectedProofRows = proofDisplayRows(releaseContract.proof);
 const errors = [];
 let browser;
 let server;
@@ -109,6 +119,55 @@ try {
     await page.evaluate(() => document.activeElement?.id),
     "main-content",
   );
+
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  const proofResponse = await page.goto(`${origin}/proof`, {
+    waitUntil: "networkidle",
+  });
+  assert.equal(proofResponse?.status(), 200);
+  await page.waitForSelector("[data-proof-contract]");
+  assert.equal(
+    await page.locator("[data-proof-contract]")
+      .getAttribute("data-proof-contract"),
+    String(releaseContract.proof.schemaVersion),
+  );
+  const renderedProofRows = await page
+    .locator("[data-proof-row]")
+    .evaluateAll((rows) => rows.map((row) => ({
+      id: row.getAttribute("data-proof-row"),
+      label: row.querySelector("span")?.textContent?.trim(),
+      value: row.querySelector("strong")?.textContent?.trim(),
+      status: row.querySelector("i")?.textContent?.trim(),
+    })));
+  assert.deepEqual(renderedProofRows, expectedProofRows);
+  assert.equal(
+    (await page.locator(".proof-console > footer").textContent())
+      ?.includes("no remote telemetry"),
+    true,
+  );
+  await page.setViewportSize({ width: 320, height: 900 });
+  await page.evaluate(() => {
+    document.documentElement.style.fontSize = "200%";
+  });
+  const proofReflow = await collectReflow(page, [
+    ".site-shell",
+    ".site-main",
+    "[data-proof-contract]",
+    ".proof-console-body",
+  ]);
+  assert.ok(
+    proofReflow.scrollWidth <= proofReflow.clientWidth,
+    JSON.stringify(proofReflow),
+  );
+  assert.equal(
+    await page.locator("[data-proof-row] strong").evaluateAll((values) =>
+      values.every((value) => getComputedStyle(value).display !== "none")
+    ),
+    true,
+  );
+  await page.evaluate(() => {
+    document.documentElement.style.removeProperty("font-size");
+  });
 
   const directDoc = docsRoutes[0];
   const nextDoc = docsRoutes[1];
@@ -389,7 +448,7 @@ function collectBrowserErrors(page, errors) {
   });
 }
 
-function readDocsRoutes() {
+function readReleaseContract() {
   const path = join(root, "src/generated/docs/release-manifest.json");
   let manifest;
   try {
@@ -399,7 +458,7 @@ function readDocsRoutes() {
       `[mado site] could not read documentation release manifest: ${error.message}`,
     );
   }
-  if (manifest.schemaVersion !== 1) {
+  if (manifest.schemaVersion !== RELEASE_MANIFEST_SCHEMA_VERSION) {
     throw new Error(
       `[mado site] unsupported documentation manifest schema ${String(
         manifest.schemaVersion,
@@ -414,7 +473,7 @@ function readDocsRoutes() {
       "[mado site] documentation manifest needs at least two documents",
     );
   }
-  return candidates.slice(0, 2).map((entry, index) => {
+  const documents = candidates.map((entry, index) => {
     const path = entry?.path ?? entry?.route;
     if (
       typeof path !== "string" ||
@@ -431,6 +490,37 @@ function readDocsRoutes() {
     }
     return { path, title: entry.title };
   });
+  const documentationRoutePaths = [
+    manifest.home?.path,
+    ...documents.map((document) => document.path),
+  ];
+  if (documentationRoutePaths.some((path) => typeof path !== "string")) {
+    throw new Error(
+      "[mado site] documentation manifest has no documentation home",
+    );
+  }
+
+  const require = createRequire(import.meta.url);
+  const installedPackage = JSON.parse(
+    readFileSync(require.resolve("@madojs/mado/package.json"), "utf8"),
+  );
+  const expectedProof = createProofContract({
+    authoredRoutePaths: Object.keys(authoredRoutes),
+    documentationRoutePaths,
+    framework: {
+      package: "@madojs/mado",
+      version: installedPackage.version,
+      tag: `v${installedPackage.version}`,
+      repository: "https://github.com/madojs/mado",
+      metadata: "@madojs/mado/package.json",
+    },
+    root,
+  });
+  assert.deepEqual(manifest.proof, expectedProof);
+  return {
+    docsRoutes: documents.slice(0, 2),
+    proof: expectedProof,
+  };
 }
 
 async function collectReflow(page, selectors) {

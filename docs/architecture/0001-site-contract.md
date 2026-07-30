@@ -24,8 +24,9 @@ HTML before JavaScript and performs an atomic SPA takeover after boot.
 ## Architecture
 
 - The canonical universal starter is the baseline.
-- `src/app.routes.ts` combines explicit authored URLs with generated,
-  individually lazy documentation pages.
+- `src/authored-routes.ts` is the source-owned authored route map;
+  `src/app.routes.ts` combines it with generated, individually lazy
+  documentation pages.
 - `src/site-shell.ts` owns the single header, main landmark and footer.
 - Route modules own page copy and semantic sections, but never another `<main>`.
 - Mado UI contributes copied CSS recipes. Site-specific layout remains local.
@@ -45,8 +46,12 @@ The generator emits route modules and a release manifest from one validated
 package source. Application routing and Mado's static discovery consume the
 route modules; release and edge verification consume the manifest with
 framework provenance, every public documentation route, exact metadata and
-expected headings. Generated files are disposable build products and are never
-an editorial source.
+expected headings. The same disposable output contains the proof-page rows,
+derived from the authored route map, generated documentation routes, exact
+installed Mado package and tracked Mado UI recipe lock. Release, edge and
+browser checks compare the rendered rows with that contract so a hand-edited
+route count cannot become public evidence. Generated files are disposable
+build products and are never an editorial source.
 
 ## Deployment
 

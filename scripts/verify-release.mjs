@@ -3,6 +3,13 @@ import { createRequire } from "node:module";
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join, resolve } from "node:path";
 
+import {
+  createProofContract,
+  proofDisplayRows,
+  RELEASE_MANIFEST_SCHEMA_VERSION,
+} from "./proof-contract.mjs";
+import { authoredRoutes } from "../src/authored-routes.ts";
+
 const root = resolve(import.meta.dirname, "..");
 const out = join(root, "out");
 const require = createRequire(import.meta.url);
@@ -52,8 +59,9 @@ if (!existsSync(out) || !statSync(out).isDirectory()) {
   fail("out/ does not exist; run npm run release first");
 }
 
-const routes = [
+const authoredReleaseRoutes = [
   {
+    path: "/",
     file: "index.html",
     canonical: "https://madojs.dev/",
     title: "A frontend framework you can own.",
@@ -61,6 +69,7 @@ const routes = [
       "Mado is a native-first frontend framework for public sites and live applications, with zero third-party runtime dependencies in core.",
   },
   {
+    path: "/start",
     file: "start/index.html",
     canonical: "https://madojs.dev/start",
     title: "From an empty directory to a running Mado app.",
@@ -68,6 +77,7 @@ const routes = [
       "Create a Mado project, understand its three contracts and build a browser-rendered static release.",
   },
   {
+    path: "/why",
     file: "why/index.html",
     canonical: "https://madojs.dev/why",
     title: "Frontend infrastructure should not become the product.",
@@ -75,12 +85,26 @@ const routes = [
       "Why Mado keeps frontend infrastructure bounded, browser-native and independent from your backend.",
   },
   {
+    path: "/proof",
     file: "proof/index.html",
     canonical: "https://madojs.dev/proof",
     title: "The claims are inspectable.",
     description:
       "Inspect the code and release behavior behind Mado's native-first frontend claims.",
   },
+];
+const authoredRoutePaths = Object.keys(authoredRoutes);
+if (
+  JSON.stringify(authoredReleaseRoutes.map((route) => route.path)) !==
+  JSON.stringify(authoredRoutePaths)
+) {
+  fail(
+    "authored release metadata does not match src/authored-routes.ts",
+  );
+}
+
+const routes = [
+  ...authoredReleaseRoutes,
   ...docsManifest.routes.map((route) => ({
     ...route,
     canonical: canonicalUrl(route.path),
@@ -113,6 +137,8 @@ for (const route of routes) {
     }
   }
 }
+
+verifyProofArtifact(read("proof/index.html"), docsManifest.proof);
 
 if (existsSync(join(out, "_redirects"))) {
   fail("out/_redirects exists even though the release owns a static host 404");
@@ -192,7 +218,7 @@ if (wrangler.assets?.not_found_handling !== "404-page") {
 }
 
 console.log(
-  `[site release] verified ${routes.length} static routes, ` +
+  `[site release] verified ${routes.length} public static routes plus 404, ` +
     `${docsManifest.routes.length} documentation routes for ` +
     `Mado ${docsManifest.frameworkVersion}, ` +
     `${scripts.length} JavaScript assets, llms.txt and Cloudflare packaging`,
@@ -213,7 +239,7 @@ function readDocsManifest() {
   } catch (error) {
     fail(`documentation release manifest is not valid JSON: ${error.message}`);
   }
-  if (manifest.schemaVersion !== 1) {
+  if (manifest.schemaVersion !== RELEASE_MANIFEST_SCHEMA_VERSION) {
     fail(
       `unsupported documentation release manifest schema ${String(
         manifest.schemaVersion,
@@ -269,11 +295,81 @@ function readDocsManifest() {
     fail("documentation release manifest has an invalid llms contract");
   }
 
+  const framework = {
+    package: "@madojs/mado",
+    version: installedFramework.version,
+    tag: `v${installedFramework.version}`,
+    repository: "https://github.com/madojs/mado",
+    metadata: "@madojs/mado/package.json",
+  };
+  if (JSON.stringify(manifest.framework) !== JSON.stringify(framework)) {
+    fail("documentation release manifest has stale framework provenance");
+  }
+  const proof = createProofContract({
+    authoredRoutePaths: Object.keys(authoredRoutes),
+    documentationRoutePaths: [...uniqueRoutes.keys()],
+    framework,
+    root,
+  });
+  if (JSON.stringify(manifest.proof) !== JSON.stringify(proof)) {
+    fail(
+      "generated proof contract differs from current routes, package or UI lock",
+    );
+  }
+
   return {
     frameworkVersion,
     llms: manifest.llms,
+    proof,
     routes: [...uniqueRoutes.values()],
   };
+}
+
+function verifyProofArtifact(html, proof) {
+  const contractSections = tags(html, "section").filter(
+    (tag) => attribute(tag, "data-proof-contract") !== undefined,
+  );
+  if (
+    contractSections.length !== 1 ||
+    attribute(contractSections[0], "data-proof-contract") !==
+      String(proof.schemaVersion)
+  ) {
+    fail("out/proof/index.html has a stale proof contract schema");
+  }
+
+  const renderedRows = [...html.matchAll(
+    /<p\b([^>]*\bdata-proof-row(?:\s*=|\b)[^>]*)>([\s\S]*?)<\/p>/giu,
+  )];
+  const expectedRows = proofDisplayRows(proof);
+  if (renderedRows.length !== expectedRows.length) {
+    fail(
+      `out/proof/index.html has ${renderedRows.length} proof rows, ` +
+        `expected ${expectedRows.length}`,
+    );
+  }
+  for (const expected of expectedRows) {
+    const matching = renderedRows.filter(
+      ([, attributes]) =>
+        attribute(attributes, "data-proof-row") === expected.id,
+    );
+    if (matching.length !== 1) {
+      fail(
+        `out/proof/index.html has ${matching.length} ${expected.id} rows, ` +
+          "expected 1",
+      );
+    }
+    const [, attributes, body] = matching[0];
+    if (
+      decodeHtml(attribute(attributes, "data-proof-value") ?? "") !==
+        expected.value ||
+      decodeHtml(attribute(attributes, "data-proof-status") ?? "") !==
+        expected.status ||
+      normalizeText(body) !==
+        `${expected.label} ${expected.value} ${expected.status}`
+    ) {
+      fail(`out/proof/index.html has stale content for ${expected.id}`);
+    }
+  }
 }
 
 function normalizeDocsRoute(route, index) {

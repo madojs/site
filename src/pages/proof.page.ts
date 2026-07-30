@@ -1,4 +1,8 @@
 import { html, page, routeUrl } from "@madojs/mado";
+import {
+  proofContractSchemaVersion,
+  proofRows,
+} from "../generated/docs/proof";
 import "../styles/proof.css";
 
 const evidence = [
@@ -102,24 +106,35 @@ export default page({
         </div>
       </header>
 
-      <section class="site-container proof-console" aria-labelledby="proof-console-title">
+      <section
+        class="site-container proof-console"
+        data-proof-contract=${String(proofContractSchemaVersion)}
+        aria-labelledby="proof-console-title"
+      >
         <header>
           <div>
             <span aria-hidden="true"></span>
             <p id="proof-console-title">madojs.dev / release audit</p>
           </div>
-          <strong>local checks</strong>
+          <strong>build contract</strong>
         </header>
         <div class="proof-console-body">
-          <p><span>route:/</span><strong>captured</strong><i>PASS</i></p>
-          <p><span>route:/start</span><strong>captured</strong><i>PASS</i></p>
-          <p><span>route:/why</span><strong>captured</strong><i>PASS</i></p>
-          <p><span>route:/proof</span><strong>captured</strong><i>PASS</i></p>
-          <p><span>fallback:404</span><strong>noindex</strong><i>PASS</i></p>
+          ${proofRows.map((row) => html`
+            <p
+              data-proof-row=${row.id}
+              data-proof-value=${row.value}
+              data-proof-status=${row.status}
+            >
+              <span>${row.label}</span>
+              <strong>${row.value}</strong>
+              <i>${row.status}</i>
+            </p>
+          `)}
         </div>
         <footer>
-          These rows are asserted by this repository's release verification,
-          not a remote telemetry feed.
+          Generated locally from the authored routes, documentation release
+          data, exact installed Mado package and the Mado UI lock. Release
+          verification asserts the rendered rows; no remote telemetry is used.
         </footer>
       </section>
 

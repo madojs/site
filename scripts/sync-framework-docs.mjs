@@ -22,6 +22,13 @@ import { fileURLToPath } from "node:url";
 
 import { marked } from "marked";
 
+import {
+  createProofContract,
+  proofDisplayRows,
+  RELEASE_MANIFEST_SCHEMA_VERSION,
+} from "./proof-contract.mjs";
+import { authoredRoutes } from "../src/authored-routes.ts";
+
 const root = resolve(import.meta.dirname, "..");
 const updateLlms = parseArguments(process.argv.slice(2));
 const packageName = "@madojs/mado";
@@ -552,6 +559,11 @@ function writeGeneratedOutput(documentList, manifestValue, llms) {
 
   mkdirSync(pages, { recursive: true });
   try {
+    const releaseManifest = generatedReleaseManifest(
+      documentList,
+      manifestValue,
+      llms,
+    );
     for (const document of documentList) {
       writeFileSync(
         join(pages, `${document.slug}.page.ts`),
@@ -571,11 +583,12 @@ function writeGeneratedOutput(documentList, manifestValue, llms) {
     );
     writeFileSync(
       join(temporary, "release-manifest.json"),
-      `${JSON.stringify(
-        generatedReleaseManifest(documentList, manifestValue, llms),
-        null,
-        2,
-      )}\n`,
+      `${JSON.stringify(releaseManifest, null, 2)}\n`,
+      "utf8",
+    );
+    writeFileSync(
+      join(temporary, "proof.ts"),
+      generatedProofModule(releaseManifest.proof),
       "utf8",
     );
     swapDirectory(temporary, target);
@@ -664,15 +677,28 @@ function generatedNavigationModule(documentList, manifestValue) {
   );
 }
 
+function generatedProofModule(proof) {
+  return (
+    "export const proofContractSchemaVersion = " +
+    `${JSON.stringify(proof.schemaVersion)} as const;\n\n` +
+    `export const proofRows = ${JSON.stringify(
+      proofDisplayRows(proof),
+      null,
+      2,
+    )} as const;\n`
+  );
+}
+
 function generatedReleaseManifest(documentList, manifestValue, llms) {
-  return {
-    schemaVersion: 1,
+  const value = {
+    schemaVersion: RELEASE_MANIFEST_SCHEMA_VERSION,
     frameworkVersion,
     framework: {
       package: packageName,
       version: frameworkVersion,
       tag: `v${frameworkVersion}`,
       repository,
+      metadata: `${packageName}/package.json`,
     },
     locale: manifestValue.locale,
     home: {
@@ -704,6 +730,16 @@ function generatedReleaseManifest(documentList, manifestValue, llms) {
       sha256: createHash("sha256").update(llms).digest("hex"),
     },
   };
+  value.proof = createProofContract({
+    authoredRoutePaths: Object.keys(authoredRoutes),
+    documentationRoutePaths: [
+      value.home.path,
+      ...value.routes.map((route) => route.path),
+    ],
+    framework: value.framework,
+    root,
+  });
+  return value;
 }
 
 function swapDirectory(temporary, target) {
