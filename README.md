@@ -62,10 +62,14 @@ Mado UI is managed as copied source:
 npx @madojs/ui@latest doctor
 npx @madojs/ui@latest diff
 npx @madojs/ui@latest update
+npx @madojs/ui@latest remove <explicit-item> --dry-run
 ```
 
 There is no `@madojs/ui` browser dependency. Site-owned styles are separate
-from copied `src/styles/mado-ui-*.css` files.
+from copied `src/styles/mado-ui-*.css` files. Lock format 2 records explicit
+installation roots and their captured dependency edges. A legacy lock must be
+migrated with its original roots before any mutating command; the CLI never
+guesses ownership.
 
 ## Cloudflare
 

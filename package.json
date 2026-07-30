@@ -20,12 +20,12 @@
     "verify:release": "node scripts/verify-release.mjs",
     "verify:edge": "node scripts/verify-edge.mjs",
     "preview": "mado preview",
-    "preview:edge": "wrangler dev",
+    "preview:edge": "wrangler dev --port 8791",
     "deploy": "node scripts/deploy-production.mjs",
     "new": "mado new"
   },
   "dependencies": {
-    "@madojs/mado": "0.15.2"
+    "@madojs/mado": "0.15.3"
   },
   "devDependencies": {
     "@types/node": "^22.12.0",

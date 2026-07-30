@@ -24,7 +24,7 @@ const navigationItems: NavigationItem[] = [
   { label: "Proof", path: "/proof", kind: "internal" },
   {
     label: "UI",
-    href: "https://github.com/madojs/ui",
+    href: "https://ui.madojs.dev",
     kind: "external",
   },
   {
@@ -205,7 +205,7 @@ export const siteShell = (): TemplateResult => html`
         <nav class="site-footer-links" aria-label="Source">
           <h2>Source</h2>
           <a href="https://github.com/madojs/mado">Framework</a>
-          <a href="https://github.com/madojs/ui">UI library</a>
+          <a href="https://ui.madojs.dev">UI catalog</a>
           <a href="https://www.npmjs.com/package/@madojs/mado">npm package</a>
         </nav>
       </div>

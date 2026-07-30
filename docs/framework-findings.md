@@ -25,17 +25,28 @@ safe. The site also excludes the path-free `.mado-output` ownership marker
 because build metadata is not a public asset. These provider-specific details
 belong in a future target-specific release adapter.
 
-### Mado UI has no remove command
+### Mado UI repeats satisfied import guidance
 
-The CLI can initialize, add, update, diff and diagnose copied items, but it
-cannot remove an installed item and update the lockfile. Open-code ownership
-makes manual deletion possible, yet a guarded `remove` command would make
-experimentation and dependency-closure cleanup less error-prone.
+Mado UI 0.2 correctly migrated the legacy lock and found all ten copied recipes
+unchanged, but `mado-ui update` still printed the complete "Add these imports"
+reminder even though `src/main.ts` already imports every file and `doctor`
+passes. The message is harmless, but the update path should filter it through
+the same resolved-import check used by diagnostics.
 
 ## Resolved locally, not hidden
 
 - UI imports are explicit in `src/main.ts`.
 - Only the CSS recipes used by the first site slice remain installed.
+- The documented local edge workflow previously started Wrangler on its
+  default port while the verifier targeted `8791`. `preview:edge` now pins the
+  same port as the verification contract.
+- Dogfooding exposed that Mado UI could not distinguish requested roots from
+  transitive dependencies or remove owned source safely. Mado UI 0.2 adds lock
+  format 2, an explicit no-guessing migration and a dry-runnable `remove` that
+  protects customized files, shared dependencies and transaction boundaries.
+- The UI registry now ships a complete 42-item reference and three guides as a
+  separately verified Cloudflare artifact at `ui.madojs.dev`; the framework
+  site links to that source of truth instead of maintaining parallel UI docs.
 - The site shell owns brand and editorial styling rather than stretching a UI
   application-shell template into a marketing layout.
 - Mado 0.15 aligns the default and modular starter descriptions: the universal

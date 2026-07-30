@@ -1,9 +1,23 @@
 {
-  "version": 1,
+  "version": 2,
   "registryCompatibility": 1,
+  "explicitItems": [
+    "breadcrumbs",
+    "button",
+    "code",
+    "content-state",
+    "disclosure",
+    "layout",
+    "navigation-list",
+    "page-header",
+    "popover"
+  ],
   "items": {
     "breadcrumbs": {
-      "registryVersion": "0.1.2",
+      "registryVersion": "0.2.0",
+      "dependencies": [
+        "theme"
+      ],
       "files": {
         "src/styles/mado-ui-breadcrumbs.css": {
           "source": "blocks/breadcrumbs/mado-ui-breadcrumbs.css",
@@ -12,7 +26,10 @@
       }
     },
     "button": {
-      "registryVersion": "0.1.1",
+      "registryVersion": "0.2.0",
+      "dependencies": [
+        "theme"
+      ],
       "files": {
         "src/styles/mado-ui-button.css": {
           "source": "primitives/button/mado-ui-button.css",
@@ -21,7 +38,10 @@
       }
     },
     "code": {
-      "registryVersion": "0.1.1",
+      "registryVersion": "0.2.0",
+      "dependencies": [
+        "theme"
+      ],
       "files": {
         "src/styles/mado-ui-code.css": {
           "source": "primitives/code/mado-ui-code.css",
@@ -30,7 +50,10 @@
       }
     },
     "content-state": {
-      "registryVersion": "0.1.1",
+      "registryVersion": "0.2.0",
+      "dependencies": [
+        "theme"
+      ],
       "files": {
         "src/styles/mado-ui-content-state.css": {
           "source": "blocks/content-state/mado-ui-content-state.css",
@@ -39,7 +62,10 @@
       }
     },
     "disclosure": {
-      "registryVersion": "0.1.2",
+      "registryVersion": "0.2.0",
+      "dependencies": [
+        "theme"
+      ],
       "files": {
         "src/styles/mado-ui-disclosure.css": {
           "source": "primitives/disclosure/mado-ui-disclosure.css",
@@ -48,7 +74,10 @@
       }
     },
     "layout": {
-      "registryVersion": "0.1.1",
+      "registryVersion": "0.2.0",
+      "dependencies": [
+        "theme"
+      ],
       "files": {
         "src/styles/mado-ui-layout.css": {
           "source": "primitives/layout/mado-ui-layout.css",
@@ -57,7 +86,10 @@
       }
     },
     "navigation-list": {
-      "registryVersion": "0.1.1",
+      "registryVersion": "0.2.0",
+      "dependencies": [
+        "theme"
+      ],
       "files": {
         "src/styles/mado-ui-navigation-list.css": {
           "source": "blocks/navigation-list/mado-ui-navigation-list.css",
@@ -66,7 +98,10 @@
       }
     },
     "page-header": {
-      "registryVersion": "0.1.1",
+      "registryVersion": "0.2.0",
+      "dependencies": [
+        "theme"
+      ],
       "files": {
         "src/styles/mado-ui-page-header.css": {
           "source": "blocks/page-header/mado-ui-page-header.css",
@@ -75,7 +110,10 @@
       }
     },
     "popover": {
-      "registryVersion": "0.1.1",
+      "registryVersion": "0.2.0",
+      "dependencies": [
+        "theme"
+      ],
       "files": {
         "src/styles/mado-ui-popover.css": {
           "source": "primitives/popover/mado-ui-popover.css",
@@ -84,7 +122,8 @@
       }
     },
     "theme": {
-      "registryVersion": "0.1.2",
+      "registryVersion": "0.2.0",
+      "dependencies": [],
       "files": {
         "src/styles/mado-ui-theme.css": {
           "source": "foundation/mado-ui-theme.css",

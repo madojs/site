@@ -48,8 +48,8 @@ const evidence = [
     claim:
       "The UI CLI copies component and CSS source into the application. This site can change every installed line locally.",
     inspect: "Compare this repository's src/styles with the UI registry.",
-    href: "https://github.com/madojs/ui",
-    link: "Mado UI registry",
+    href: "https://ui.madojs.dev",
+    link: "Mado UI catalog",
   },
   {
     number: "06",
