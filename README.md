@@ -48,11 +48,31 @@ from copied `src/styles/mado-ui-*.css` files.
 routes are static, so unknown URLs use `404.html`; the site intentionally
 overrides Mado's generic SPA `_redirects` catch-all.
 
+CI verifies every push and pull request but intentionally has no production
+credentials. Production deploys are operator-controlled from an authenticated
+workspace. The deploy command requires a clean `main` at the same commit as
+`origin/main`, Node 24, no local production `.env` files and no Cloudflare
+credentials in the shell. It installs the locked dependencies, rebuilds and
+verifies the release, records the commit SHA in the deployed artifact and
+checks that exact commit on the public edge.
+
+Authenticate once, then deploy:
+
 ```bash
-npm run preview:edge
-npm run verify:edge # in another terminal
+npm exec -- wrangler login
 npm run deploy
 ```
 
+For a local edge preview:
+
+```bash
+npm run preview:edge
+npm run verify:edge # in another terminal
+```
+
 Deployment requires an authenticated Cloudflare account and the `madojs.dev`
-zone. Architecture decisions and dogfood findings live in `docs/`.
+zone. The non-secret account ID is pinned in `wrangler.jsonc`; authorization is
+provided only by the local Wrangler OAuth session. No Cloudflare credentials
+are stored in GitHub. A failed post-deploy edge check exits non-zero but does
+not automatically roll production back. Architecture decisions and dogfood
+findings live in `docs/`.

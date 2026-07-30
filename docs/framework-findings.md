@@ -28,6 +28,12 @@ copies with `.assetsignore`; clean public paths such as `/start` do not match
 the generated HTML rule, although Workers' default revalidation policy remains
 safe. Both details belong in a future target-specific release adapter.
 
+The release artifact also contains `.mado-output`, an ownership marker whose
+`projectRoot` is an absolute build-machine path. Wrangler treats it as a public
+asset unless the project excludes it. This site adds `.mado-output` to
+`.assetsignore` and verifies the rule; Mado should eventually keep internal
+artifact metadata outside the public asset tree or exclude it by default.
+
 ### Mado UI has no remove command
 
 The CLI can initialize, add, update, diff and diagnose copied items, but it

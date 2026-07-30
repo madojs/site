@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": "24.x"
+  },
   "scripts": {
     "dev": "mado dev",
     "build": "mado build",
@@ -15,8 +18,7 @@
     "verify:edge": "node scripts/verify-edge.mjs",
     "preview": "mado preview",
     "preview:edge": "wrangler dev",
-    "predeploy": "npm run release && npm run verify:release",
-    "deploy": "wrangler deploy",
+    "deploy": "node scripts/deploy-production.mjs",
     "new": "mado new"
   },
   "dependencies": {

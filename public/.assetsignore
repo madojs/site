@@ -1,2 +1,3 @@
 *.br
 *.gz
+.mado-output

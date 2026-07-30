@@ -104,6 +104,7 @@ if (!assetFiles.some((path) => path.endsWith(".gz"))) {
 const assetsIgnore = read(".assetsignore");
 assertIncludes(assetsIgnore, "*.br", "out/.assetsignore");
 assertIncludes(assetsIgnore, "*.gz", "out/.assetsignore");
+assertIncludes(assetsIgnore, ".mado-output", "out/.assetsignore");
 
 const wrangler = JSON.parse(
   readFileSync(join(root, "wrangler.jsonc"), "utf8"),

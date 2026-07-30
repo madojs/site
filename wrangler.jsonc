@@ -1,6 +1,7 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "madojs-dev",
+  "account_id": "b1dc52470c24d7e15a9edf046e981da0",
   "compatibility_date": "2026-07-29",
   "workers_dev": false,
   "preview_urls": true,
