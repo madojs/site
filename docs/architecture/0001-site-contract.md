@@ -35,8 +35,8 @@ The first release uses Cloudflare Workers Static Assets in static-site mode:
 - `out/` is the upload directory;
 - HTML uses canonical paths without trailing slashes;
 - unknown paths use the generated `404.html`;
-- Mado's generic SPA catch-all is intentionally suppressed for this all-static
-  site because Workers applies `_redirects` before asset lookup.
+- the static wildcard makes Mado omit its generic SPA catch-all because
+  Workers applies `_redirects` before asset lookup.
 
 If a real SPA-only route is added later, deployment must move to an asset-first
 fallback Worker that serves `/_mado/spa.html` only for missing HTML navigation

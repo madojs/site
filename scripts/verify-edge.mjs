@@ -84,8 +84,17 @@ async function verifyEdge() {
 
   const unknown = await request("/route-that-does-not-exist");
   expectStatus(unknown, 404, "/route-that-does-not-exist");
-  if (!unknown.body.includes('name="robots" content="noindex"')) {
+  const robots = unknown.body.match(
+    /<meta\b[^>]*\bname=["']robots["'][^>]*>/i,
+  )?.[0];
+  if (!robots || !/\bnoindex\b/i.test(robots)) {
     fail("unknown route did not use the noindex 404 document");
+  }
+  if (
+    !unknown.body.includes("Page not found") ||
+    !unknown.body.includes("data-mado-static-fallback")
+  ) {
+    fail("unknown route did not serve the captured site 404");
   }
 
   const head = await request("/proof", { method: "HEAD" });

@@ -15,12 +15,15 @@ starter text as product guidance.
 ### Cloudflare Workers and the default `_redirects`
 
 `mado release` generates `/* /_mado/spa.html 200` when no `_redirects` file is
-present. Workers Static Assets evaluates that rewrite before looking for an
-asset, so the rule can shadow captured pages and even JavaScript assets.
+present and the release has no explicit host 404. Workers Static Assets
+evaluates that rewrite before looking for an asset, so the SPA policy can
+shadow captured pages and even JavaScript assets.
 
-This site supplies an intentionally empty `public/_redirects` and uses an
-all-static `404-page` deployment. Mado should eventually expose deployment
-targets or document an asset-first fallback Worker for mixed static/SPA sites.
+The all-static site now dogfoods Mado's literal static wildcard: it produces
+`404.html` and suppresses the automatic catch-all without a placeholder
+`public/_redirects`. Mado's deployment guide now documents an asset-first
+fallback Worker for mixed static/SPA sites; a provider abstraction can wait
+until a real application proves that the extra core surface is justified.
 
 Mado also precompresses every text asset and emits an HTML `/*.html` headers
 rule. Workers compresses at the edge, so this site excludes `.br` and `.gz`

@@ -20,6 +20,16 @@ const assertIncludes = (value, expected, context) => {
   }
 };
 
+const assertCount = (value, expected, count, context) => {
+  const actual = value.split(expected).length - 1;
+  if (actual !== count) {
+    fail(
+      `${context} includes ${JSON.stringify(expected)} ${actual} time(s), ` +
+        `expected ${count}`,
+    );
+  }
+};
+
 const walk = (directory) =>
   readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
     const path = join(directory, entry.name);
@@ -35,21 +45,29 @@ const routes = [
     file: "index.html",
     canonical: "https://madojs.dev/",
     copy: "A frontend framework you can own.",
+    description:
+      "Mado is a native-first frontend framework for public sites and live applications, with zero third-party runtime dependencies in core.",
   },
   {
     file: "start/index.html",
     canonical: "https://madojs.dev/start",
     copy: "From an empty directory to a running Mado app.",
+    description:
+      "Create a Mado project, understand its three contracts and build a browser-rendered static release.",
   },
   {
     file: "why/index.html",
     canonical: "https://madojs.dev/why",
     copy: "Frontend infrastructure should not become the product.",
+    description:
+      "Why Mado keeps frontend infrastructure bounded, browser-native and independent from your backend.",
   },
   {
     file: "proof/index.html",
     canonical: "https://madojs.dev/proof",
     copy: "The claims are inspectable.",
+    description:
+      "Inspect the code and release behavior behind Mado's native-first frontend claims.",
   },
 ];
 
@@ -58,15 +76,32 @@ for (const route of routes) {
   assertIncludes(html, route.copy, `out/${route.file}`);
   assertIncludes(
     html,
+    `name="description" content="${route.description}"`,
+    `out/${route.file}`,
+  );
+  assertCount(
+    html,
+    'name="description"',
+    1,
+    `out/${route.file}`,
+  );
+  assertIncludes(
+    html,
     `<link rel="canonical" href="${route.canonical}"`,
+    `out/${route.file}`,
+  );
+  assertCount(html, 'rel="canonical"', 1, `out/${route.file}`);
+  assertCount(html, 'property="og:url"', 1, `out/${route.file}`);
+  assertIncludes(
+    html,
+    `property="og:url" content="${route.canonical}"`,
     `out/${route.file}`,
   );
   assertIncludes(html, "data-mado-static", `out/${route.file}`);
 }
 
-const redirects = read("_redirects");
-if (redirects.includes("/* /_mado/spa.html 200")) {
-  fail("out/_redirects contains Mado's catch-all SPA rewrite");
+if (existsSync(join(out, "_redirects"))) {
+  fail("out/_redirects exists even though the release owns a static host 404");
 }
 
 const fallback = read("_mado/spa.html");
@@ -76,12 +111,36 @@ assertIncludes(fallback, "noindex", "out/_mado/spa.html");
 const notFound = read("404.html");
 assertIncludes(notFound, 'name="robots"', "out/404.html");
 assertIncludes(notFound, "noindex", "out/404.html");
+assertIncludes(notFound, "Page not found", "out/404.html");
+assertIncludes(
+  notFound,
+  "The requested address is not part of the Mado site.",
+  "out/404.html",
+);
+assertIncludes(notFound, "data-mado-static", "out/404.html");
+assertIncludes(notFound, "data-mado-static-fallback", "out/404.html");
+assertIncludes(
+  notFound,
+  'name="description" content="The requested page is not part of madojs.dev."',
+  "out/404.html",
+);
+assertCount(notFound, 'name="description"', 1, "out/404.html");
+assertCount(notFound, 'name="robots"', 1, "out/404.html");
+assertCount(notFound, 'rel="canonical"', 0, "out/404.html");
+assertCount(notFound, 'property="og:url"', 0, "out/404.html");
+assertCount(notFound, "__mado_static_not_found__", 0, "out/404.html");
+if (notFound === fallback) {
+  fail("out/404.html is still the empty SPA fallback shell");
+}
 
 const sitemap = read("sitemap.xml");
 for (const route of routes) {
   const sitemapUrl = route.canonical.replace(/\/$/, "");
   assertIncludes(sitemap, `<loc>${sitemapUrl}</loc>`, "out/sitemap.xml");
 }
+assertCount(sitemap, "<loc>", routes.length, "out/sitemap.xml");
+assertCount(sitemap, "__mado_static_not_found__", 0, "out/sitemap.xml");
+assertCount(sitemap, "<loc>https://madojs.dev/404</loc>", 0, "out/sitemap.xml");
 
 const assetFiles = walk(join(out, "assets"));
 const scripts = assetFiles.filter((path) => path.endsWith(".js"));

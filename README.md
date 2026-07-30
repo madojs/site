@@ -45,8 +45,8 @@ from copied `src/styles/mado-ui-*.css` files.
 ## Cloudflare
 
 `wrangler.jsonc` deploys `out/` as Workers Static Assets. All current public
-routes are static, so unknown URLs use `404.html`; the site intentionally
-overrides Mado's generic SPA `_redirects` catch-all.
+routes are static, so the static wildcard produces `404.html` and Mado omits
+its generic SPA `_redirects` catch-all.
 
 CI verifies every push and pull request but intentionally has no production
 credentials. Production deploys are operator-controlled from an authenticated

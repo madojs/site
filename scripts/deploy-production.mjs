@@ -43,6 +43,15 @@ for (const name of [
   }
 }
 
+for (const name of ["MADO_BROWSER_CHANNEL", "MADO_BROWSER_PATH"]) {
+  if (process.env[name]) {
+    fail(
+      `${name} must be unset; production verification uses the ` +
+        "Playwright-managed Chromium revision pinned by package-lock.json",
+    );
+  }
+}
+
 for (const name of [
   ".env",
   ".env.local",

@@ -27,17 +27,13 @@ try {
   }
   const origin = `http://127.0.0.1:${address.port}`;
 
-  browser = await chromium.launch(
-    process.env.MADO_BROWSER_PATH
-      ? {
-          executablePath: process.env.MADO_BROWSER_PATH,
-          headless: true,
-        }
-      : {
-          channel: process.env.MADO_BROWSER_CHANNEL ?? "chrome",
-          headless: true,
-        },
-  );
+  const launchOptions = { headless: true };
+  if (process.env.MADO_BROWSER_PATH) {
+    launchOptions.executablePath = process.env.MADO_BROWSER_PATH;
+  } else if (process.env.MADO_BROWSER_CHANNEL) {
+    launchOptions.channel = process.env.MADO_BROWSER_CHANNEL;
+  }
+  browser = await chromium.launch(launchOptions);
 
   const context = await browser.newContext({
     viewport: { width: 1440, height: 1000 },
