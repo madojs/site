@@ -1,0 +1,78 @@
+{
+  "version": 1,
+  "registryCompatibility": 1,
+  "items": {
+    "button": {
+      "registryVersion": "0.1.1",
+      "files": {
+        "src/styles/mado-ui-button.css": {
+          "source": "primitives/button/mado-ui-button.css",
+          "hash": "081e660f2360b8efd6c8c2dfadd0c0fe24c71cbdfc9f9757a71bb2015af46002"
+        }
+      }
+    },
+    "code": {
+      "registryVersion": "0.1.1",
+      "files": {
+        "src/styles/mado-ui-code.css": {
+          "source": "primitives/code/mado-ui-code.css",
+          "hash": "a21f16c0e50969d6675f345ddb2a9f6426eca6bd681657c11668c85c60c8b726"
+        }
+      }
+    },
+    "content-state": {
+      "registryVersion": "0.1.1",
+      "files": {
+        "src/styles/mado-ui-content-state.css": {
+          "source": "blocks/content-state/mado-ui-content-state.css",
+          "hash": "8d34b693f079157416add071eed2f6acf50965be176a3ab4a886259decff3e80"
+        }
+      }
+    },
+    "layout": {
+      "registryVersion": "0.1.1",
+      "files": {
+        "src/styles/mado-ui-layout.css": {
+          "source": "primitives/layout/mado-ui-layout.css",
+          "hash": "1df3e03fb4dba9d612b735f278139ef4c4d7f17d8c9122788a1ec292116f4890"
+        }
+      }
+    },
+    "navigation-list": {
+      "registryVersion": "0.1.1",
+      "files": {
+        "src/styles/mado-ui-navigation-list.css": {
+          "source": "blocks/navigation-list/mado-ui-navigation-list.css",
+          "hash": "090574479ce48ee62b2f8934c99a997cad496f2194c194e5baaa19f5c6b4cd5a"
+        }
+      }
+    },
+    "page-header": {
+      "registryVersion": "0.1.1",
+      "files": {
+        "src/styles/mado-ui-page-header.css": {
+          "source": "blocks/page-header/mado-ui-page-header.css",
+          "hash": "680d8ec7622db59a2fdddd102d02e02634fe4515a919403bbdaaee035837c423"
+        }
+      }
+    },
+    "popover": {
+      "registryVersion": "0.1.1",
+      "files": {
+        "src/styles/mado-ui-popover.css": {
+          "source": "primitives/popover/mado-ui-popover.css",
+          "hash": "b0b0650114ed934038f07414a11a535f8eed3aecb9cd89d01cf260dc17010c5d"
+        }
+      }
+    },
+    "theme": {
+      "registryVersion": "0.1.1",
+      "files": {
+        "src/styles/mado-ui-theme.css": {
+          "source": "foundation/mado-ui-theme.css",
+          "hash": "a5f1f9d6ce4de40fa8876b225d8d569509fb1b427f435d5b561c2519a8b45e98"
+        }
+      }
+    }
+  }
+}

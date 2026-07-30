@@ -1,0 +1,56 @@
+/*
+ * <div class="mado-ui-stack">...</div>
+ * <div class="mado-ui-cluster">...</div>
+ * <div class="mado-ui-grid" style="--mado-ui-grid-min: 14rem">...</div>
+ */
+@layer mado-ui {
+  :where(.mado-ui-stack) {
+    display: flex;
+    min-inline-size: 0;
+    flex-direction: column;
+    align-items: var(--mado-ui-stack-align, stretch);
+    justify-content: var(--mado-ui-stack-justify, flex-start);
+    gap: var(
+      --mado-ui-stack-gap,
+      var(--mado-ui-space-4, 1rem)
+    );
+  }
+
+  :where(.mado-ui-stack > *) {
+    min-inline-size: 0;
+  }
+
+  :where(.mado-ui-cluster) {
+    display: flex;
+    min-inline-size: 0;
+    flex-wrap: var(--mado-ui-cluster-wrap, wrap);
+    align-items: var(--mado-ui-cluster-align, center);
+    justify-content: var(--mado-ui-cluster-justify, flex-start);
+    gap: var(
+      --mado-ui-cluster-gap,
+      var(--mado-ui-space-3, 0.75rem)
+    );
+  }
+
+  :where(.mado-ui-cluster > *) {
+    min-inline-size: 0;
+  }
+
+  :where(.mado-ui-grid) {
+    display: grid;
+    min-inline-size: 0;
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(min(100%, var(--mado-ui-grid-min, 16rem)), 1fr)
+    );
+    align-items: var(--mado-ui-grid-align, stretch);
+    gap: var(
+      --mado-ui-grid-gap,
+      var(--mado-ui-space-4, 1rem)
+    );
+  }
+
+  :where(.mado-ui-grid > *) {
+    min-inline-size: 0;
+  }
+}

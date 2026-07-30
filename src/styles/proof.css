@@ -1,0 +1,217 @@
+.proof-console {
+  overflow: hidden;
+  margin-block-end: clamp(4rem, 8vw, 7rem);
+  border: 1px solid var(--site-dark-line);
+  border-radius: 0.85rem;
+  background: var(--site-dark);
+  color: var(--site-dark-text);
+  font-family: var(--site-font-mono);
+}
+
+.proof-console > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 1.15rem;
+  border-block-end: 1px solid var(--site-dark-line);
+  font-size: 0.7rem;
+}
+
+.proof-console > header > div {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.proof-console > header span {
+  inline-size: 0.45rem;
+  block-size: 0.45rem;
+  border-radius: 50%;
+  background: oklch(0.76 0.12 153);
+}
+
+.proof-console > header p {
+  margin: 0;
+  color: var(--site-dark-muted);
+}
+
+.proof-console > header strong {
+  color: var(--site-dark-text);
+  font-weight: 600;
+}
+
+.proof-console-body {
+  padding-inline: 1.15rem;
+}
+
+.proof-console-body p {
+  display: grid;
+  grid-template-columns: minmax(8rem, 1fr) minmax(6rem, 0.7fr) auto;
+  gap: 1rem;
+  margin: 0;
+  padding-block: 1rem;
+  border-block-end: 1px solid var(--site-dark-line);
+  font-size: clamp(0.7rem, 1.7vw, 0.8rem);
+}
+
+.proof-console-body p:last-child {
+  border: 0;
+}
+
+.proof-console-body span {
+  color: var(--site-dark-muted);
+}
+
+.proof-console-body strong {
+  color: var(--site-dark-text);
+  font-weight: 500;
+}
+
+.proof-console-body i {
+  color: oklch(0.76 0.12 153);
+  font-style: normal;
+  font-weight: 700;
+}
+
+.proof-console > footer {
+  padding: 0.9rem 1.15rem;
+  border-block-start: 1px solid var(--site-dark-line);
+  background: var(--site-dark-soft);
+  color: var(--site-dark-muted);
+  font-size: 0.68rem;
+}
+
+.proof-evidence {
+  padding-block: 0 clamp(5rem, 10vw, 9rem);
+}
+
+.proof-evidence-list {
+  display: grid;
+  margin-block-start: clamp(3rem, 6vw, 5rem);
+  border-block-start: 1px solid var(--site-line);
+}
+
+.proof-evidence-list article {
+  display: grid;
+  grid-template-columns: 3rem minmax(18rem, 1fr) minmax(10rem, auto);
+  gap: clamp(1rem, 4vw, 4rem);
+  align-items: start;
+  padding-block: clamp(1.8rem, 4vw, 3rem);
+  border-block-end: 1px solid var(--site-line);
+}
+
+.proof-evidence-number {
+  color: var(--site-line-strong);
+  font-family: var(--site-font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.proof-evidence-copy h3 {
+  margin-block-end: 0.75rem;
+  font-size: clamp(1.35rem, 2.4vw, 1.9rem);
+  letter-spacing: -0.035em;
+}
+
+.proof-evidence-copy p {
+  max-inline-size: 64ch;
+  margin-block-end: 0.7rem;
+  color: var(--site-ink-muted);
+}
+
+.proof-evidence-copy p:last-child {
+  margin: 0;
+  font-size: 0.88rem;
+}
+
+.proof-evidence-copy strong {
+  color: var(--site-ink);
+}
+
+.proof-evidence-list .site-text-link {
+  justify-self: end;
+  font-size: 0.86rem;
+}
+
+.proof-nonclaims {
+  padding-block: clamp(4.5rem, 9vw, 8rem);
+  background: var(--site-surface);
+}
+
+.proof-nonclaims-grid {
+  display: grid;
+  grid-template-columns: minmax(18rem, 0.8fr) minmax(20rem, 1.2fr);
+  gap: clamp(3rem, 8vw, 8rem);
+}
+
+.proof-nonclaims .site-cross-list {
+  align-content: center;
+  font-size: 1.02rem;
+}
+
+.proof-method {
+  display: grid;
+  grid-template-columns: minmax(18rem, 0.8fr) minmax(20rem, 1.2fr);
+  gap: clamp(3rem, 8vw, 8rem);
+  padding-block: clamp(4.5rem, 9vw, 8rem);
+}
+
+.proof-method h2 {
+  max-inline-size: 14ch;
+  margin-block: 0.85rem 0;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  letter-spacing: -0.045em;
+}
+
+.proof-method > div:last-child {
+  align-self: end;
+}
+
+.proof-method > div:last-child p {
+  max-inline-size: 60ch;
+  color: var(--site-ink-muted);
+  font-size: 1.1rem;
+}
+
+@media (max-width: 52rem) {
+  .proof-evidence-list article {
+    grid-template-columns: 2rem minmax(0, 1fr);
+  }
+
+  .proof-evidence-list .site-text-link {
+    grid-column: 2;
+    justify-self: start;
+  }
+
+  .proof-nonclaims-grid,
+  .proof-method {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 32rem) {
+  .proof-console-body p {
+    grid-template-columns: 1fr auto;
+  }
+
+  .proof-console-body strong {
+    display: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .proof-console,
+  .proof-console > header,
+  .proof-console-body p,
+  .proof-console > footer,
+  .proof-evidence-list,
+  .proof-evidence-list article {
+    border-color: CanvasText;
+  }
+
+  .proof-console {
+    background: Canvas;
+    color: CanvasText;
+  }
+}

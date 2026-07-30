@@ -1,0 +1,242 @@
+/*
+ * <button class="mado-ui-button" type="submit">Save</button>
+ * <a class="mado-ui-button" data-variant="secondary" href="/docs">Docs</a>
+ */
+@layer mado-ui {
+  :where(.mado-ui-button) {
+    box-sizing: border-box;
+    display: inline-flex;
+    min-height: var(--mado-ui-button-height, 2.25rem);
+    max-width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: var(--mado-ui-button-gap, var(--mado-ui-space-2, 0.5rem));
+    padding: var(
+      --mado-ui-button-padding,
+      var(--mado-ui-space-2, 0.5rem) 0.875rem
+    );
+    border: 1px solid
+      var(
+        --mado-ui-button-border,
+        var(--mado-ui-color-action, oklch(0.205 0.006 285.9))
+      );
+    border-radius: var(
+      --mado-ui-button-radius,
+      var(--mado-ui-radius-sm, 0.5rem)
+    );
+    appearance: none;
+    background: var(
+      --mado-ui-button-background,
+      var(--mado-ui-color-action, oklch(0.205 0.006 285.9))
+    );
+    color: var(
+      --mado-ui-button-color,
+      var(--mado-ui-color-action-contrast, oklch(0.985 0 0))
+    );
+    box-shadow: var(
+      --mado-ui-button-shadow,
+      0 1px 2px oklch(0.205 0.006 285.9 / 0.08)
+    );
+    font: inherit;
+    font-size: var(--mado-ui-button-font-size, 0.875rem);
+    font-weight: var(--mado-ui-button-font-weight, 500);
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    text-wrap: balance;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  :where(.mado-ui-button[data-variant="secondary"]) {
+    --mado-ui-button-border: var(
+      --mado-ui-color-border,
+      oklch(0.9 0.006 264.5)
+    );
+    --mado-ui-button-background: var(
+      --mado-ui-color-surface,
+      oklch(1 0 0)
+    );
+    --mado-ui-button-color: var(
+      --mado-ui-color-text,
+      oklch(0.205 0.006 285.9)
+    );
+  }
+
+  :where(.mado-ui-button[data-variant="ghost"]) {
+    --mado-ui-button-border: transparent;
+    --mado-ui-button-background: transparent;
+    --mado-ui-button-color: var(
+      --mado-ui-color-text,
+      oklch(0.205 0.006 285.9)
+    );
+    --mado-ui-button-shadow: none;
+  }
+
+  :where(.mado-ui-button[data-variant="danger"]) {
+    --mado-ui-button-border: var(
+      --mado-ui-color-danger,
+      oklch(0.577 0.245 27.3)
+    );
+    --mado-ui-button-background: var(
+      --mado-ui-color-danger,
+      oklch(0.577 0.245 27.3)
+    );
+    --mado-ui-button-color: var(
+      --mado-ui-color-danger-contrast,
+      oklch(0.985 0 0)
+    );
+  }
+
+  :where(.mado-ui-button[data-size="small"]) {
+    --mado-ui-button-height: 2rem;
+    --mado-ui-button-padding:
+      var(--mado-ui-space-1, 0.25rem) var(--mado-ui-space-3, 0.75rem);
+    --mado-ui-button-font-size: 0.8125rem;
+  }
+
+  :where(.mado-ui-button[data-size="large"]) {
+    --mado-ui-button-height: 2.75rem;
+    --mado-ui-button-padding:
+      var(--mado-ui-space-3, 0.75rem) var(--mado-ui-space-5, 1.5rem);
+    --mado-ui-button-font-size: 0.9375rem;
+  }
+
+  :where(.mado-ui-button[data-block]) {
+    width: 100%;
+  }
+
+  :where(.mado-ui-button:focus-visible) {
+    outline: 2px solid
+      var(--mado-ui-color-action, oklch(0.205 0.006 285.9));
+    outline-offset: 2px;
+    box-shadow: var(
+      --mado-ui-button-focus-ring,
+      var(
+        --mado-ui-focus-ring,
+        0 0 0 3px oklch(0.205 0.006 285.9 / 0.24)
+      )
+    );
+  }
+
+  :where(.mado-ui-button:disabled) {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  :where(.mado-ui-link) {
+    border-radius: var(--mado-ui-radius-sm, 0.5rem);
+    color: var(
+      --mado-ui-link-color,
+      var(--mado-ui-color-text, oklch(0.205 0.006 285.9))
+    );
+    font: inherit;
+    font-weight: var(--mado-ui-link-font-weight, 500);
+    text-decoration-line: underline;
+    text-decoration-color: color-mix(in oklch, currentColor 45%, transparent);
+    text-decoration-thickness: 0.06em;
+    text-underline-offset: 0.22em;
+  }
+
+  :where(.mado-ui-link:focus-visible) {
+    outline: 2px solid
+      var(--mado-ui-color-action, oklch(0.205 0.006 285.9));
+    outline-offset: 3px;
+    box-shadow: var(
+      --mado-ui-focus-ring,
+      0 0 0 3px oklch(0.205 0.006 285.9 / 0.24)
+    );
+  }
+
+  @media (hover: hover) {
+    :where(.mado-ui-button:not(:disabled):hover) {
+      --mado-ui-button-background: var(
+        --mado-ui-button-hover-background,
+        var(--mado-ui-color-action-hover, oklch(0.269 0.006 285.9))
+      );
+      --mado-ui-button-border: var(
+        --mado-ui-button-hover-border,
+        var(--mado-ui-button-background)
+      );
+    }
+
+    :where(
+      .mado-ui-button[data-variant="secondary"]:not(:disabled):hover
+    ) {
+      --mado-ui-button-hover-background: var(
+        --mado-ui-color-surface-soft,
+        oklch(0.967 0.003 264.5)
+      );
+      --mado-ui-button-hover-border: var(
+        --mado-ui-color-border,
+        oklch(0.9 0.006 264.5)
+      );
+    }
+
+    :where(
+      .mado-ui-button[data-variant="ghost"]:not(:disabled):hover
+    ) {
+      --mado-ui-button-hover-background: var(
+        --mado-ui-color-surface-soft,
+        oklch(0.967 0.003 264.5)
+      );
+      --mado-ui-button-hover-border: transparent;
+    }
+
+    :where(
+      .mado-ui-button[data-variant="danger"]:not(:disabled):hover
+    ) {
+      --mado-ui-button-hover-background: var(
+        --mado-ui-color-danger-hover,
+        oklch(0.505 0.213 27.5)
+      );
+      --mado-ui-button-hover-border: var(
+        --mado-ui-color-danger-hover,
+        oklch(0.505 0.213 27.5)
+      );
+    }
+
+    :where(.mado-ui-link:hover) {
+      color: var(
+        --mado-ui-link-hover-color,
+        var(--mado-ui-color-text-muted, oklch(0.46 0.014 264.4))
+      );
+      text-decoration-color: currentColor;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    :where(.mado-ui-button, .mado-ui-link) {
+      transition:
+        background-color 140ms ease,
+        border-color 140ms ease,
+        box-shadow 140ms ease,
+        color 140ms ease,
+        text-decoration-thickness 140ms ease;
+    }
+  }
+
+  @media (forced-colors: active) {
+    :where(.mado-ui-button) {
+      border-color: ButtonText;
+      background: ButtonFace;
+      color: ButtonText;
+    }
+
+    :where(.mado-ui-button:disabled) {
+      border-color: GrayText;
+      color: GrayText;
+      opacity: 1;
+    }
+
+    :where(.mado-ui-button:focus-visible, .mado-ui-link:focus-visible) {
+      outline-color: Highlight;
+      box-shadow: none;
+    }
+
+    :where(.mado-ui-link) {
+      color: LinkText;
+    }
+  }
+}

@@ -1,0 +1,126 @@
+/*
+ * <header class="mado-ui-page-header">
+ *   <div class="mado-ui-page-header-heading">
+ *     <p class="mado-ui-page-header-eyebrow">Settings</p>
+ *     <h1 class="mado-ui-page-header-title">Team members</h1>
+ *     <p class="mado-ui-page-header-description">
+ *       Manage access to this workspace.
+ *     </p>
+ *   </div>
+ *   <div class="mado-ui-page-header-actions">...</div>
+ * </header>
+ *
+ * The application owns the heading level and action semantics. The recipe is
+ * deliberately transparent: it provides typography and wrapping layout, not
+ * another card surface.
+ */
+@layer mado-ui {
+  :where(
+    .mado-ui-page-header,
+    .mado-ui-page-header-heading,
+    .mado-ui-page-header-eyebrow,
+    .mado-ui-page-header-title,
+    .mado-ui-page-header-description,
+    .mado-ui-page-header-actions
+  ) {
+    box-sizing: border-box;
+  }
+
+  :where(.mado-ui-page-header) {
+    display: flex;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+    flex-wrap: wrap;
+    align-items: var(--mado-ui-page-header-align, flex-start);
+    justify-content: space-between;
+    gap: var(
+      --mado-ui-page-header-gap,
+      var(--mado-ui-space-4, 1rem)
+    );
+    color: var(
+      --mado-ui-page-header-color,
+      var(--mado-ui-color-text, oklch(0.205 0.006 285.9))
+    );
+  }
+
+  :where(.mado-ui-page-header-heading) {
+    display: grid;
+    min-inline-size: 0;
+    flex: 1 1 24rem;
+    gap: var(
+      --mado-ui-page-header-heading-gap,
+      var(--mado-ui-space-1, 0.25rem)
+    );
+  }
+
+  :where(.mado-ui-page-header-eyebrow) {
+    margin: 0;
+    color: var(
+      --mado-ui-page-header-eyebrow-color,
+      var(--mado-ui-color-text-muted, oklch(0.46 0.014 264.4))
+    );
+    font-size: 0.75rem;
+    font-weight: 650;
+    line-height: 1.4;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+  }
+
+  :where(.mado-ui-page-header-title) {
+    margin: 0;
+    color: inherit;
+    font-size: var(
+      --mado-ui-page-header-title-size,
+      clamp(1.75rem, 3vw, 2.25rem)
+    );
+    font-weight: 650;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+  }
+
+  :where(.mado-ui-page-header-description) {
+    max-inline-size: var(
+      --mado-ui-page-header-description-width,
+      65ch
+    );
+    margin: var(--mado-ui-space-1, 0.25rem) 0 0;
+    color: var(
+      --mado-ui-page-header-description-color,
+      var(--mado-ui-color-text-muted, oklch(0.46 0.014 264.4))
+    );
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+  }
+
+  :where(.mado-ui-page-header-actions) {
+    display: flex;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+    flex: 0 1 auto;
+    flex-wrap: wrap;
+    align-items: var(--mado-ui-page-header-actions-align, center);
+    gap: var(
+      --mado-ui-page-header-actions-gap,
+      var(--mado-ui-space-2, 0.5rem)
+    );
+    margin-inline-start: auto;
+  }
+
+  :where(.mado-ui-page-header-actions > *) {
+    min-inline-size: 0;
+    max-inline-size: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  @media (forced-colors: active) {
+    :where(.mado-ui-page-header) {
+      --mado-ui-page-header-color: CanvasText;
+      --mado-ui-page-header-eyebrow-color: CanvasText;
+      --mado-ui-page-header-description-color: CanvasText;
+    }
+  }
+}

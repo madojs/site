@@ -1,0 +1,284 @@
+.site-page {
+  overflow: clip;
+}
+
+.site-section {
+  padding-block: clamp(4.5rem, 9vw, 8rem);
+}
+
+.site-page-header {
+  --mado-ui-page-header-title-size: clamp(2.8rem, 7vw, 5.75rem);
+  --mado-ui-page-header-description-width: 61ch;
+  align-items: end;
+  padding-block: clamp(5rem, 10vw, 9rem) clamp(3rem, 6vw, 5rem);
+}
+
+.site-page-header .mado-ui-page-header-heading {
+  gap: 0.8rem;
+}
+
+.site-page-header .mado-ui-page-header-title {
+  max-inline-size: 13ch;
+  letter-spacing: -0.055em;
+}
+
+.site-page-header .mado-ui-page-header-description {
+  margin-block-start: 0.4rem;
+  font-size: clamp(1rem, 1.7vw, 1.2rem);
+  line-height: 1.7;
+}
+
+.site-page-header .mado-ui-page-header-eyebrow,
+.site-eyebrow {
+  margin: 0;
+  color: var(--site-brand);
+  font-family: var(--site-font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.site-section-heading {
+  min-inline-size: 0;
+  max-inline-size: min(100%, 48rem);
+}
+
+.site-section-heading h2 {
+  max-inline-size: 18ch;
+  margin-block: 0.85rem 1.2rem;
+  font-size: clamp(2rem, 4.5vw, 3.75rem);
+  letter-spacing: -0.045em;
+}
+
+.site-section-heading > p:last-child {
+  max-inline-size: var(--site-reading);
+  margin-block-end: 0;
+  color: var(--site-ink-muted);
+  font-size: clamp(1rem, 1.6vw, 1.15rem);
+}
+
+.site-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  inline-size: fit-content;
+  border-radius: 0.25rem;
+  color: var(--site-brand);
+  font-weight: 700;
+  text-underline-offset: 0.25em;
+}
+
+.site-text-link:focus-visible {
+  outline: 2px solid var(--site-brand);
+  outline-offset: 4px;
+}
+
+.site-code-example {
+  min-inline-size: 0;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--site-line);
+  border-radius: 0.8rem;
+  background: var(--site-surface);
+}
+
+.site-code-example-header {
+  display: flex;
+  min-block-size: 3rem;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.45rem 0.55rem 0.45rem 1rem;
+  border-block-end: 1px solid var(--site-line);
+  color: var(--site-ink-muted);
+  font-family: var(--site-font-mono);
+  font-size: 0.72rem;
+}
+
+.site-code-example .site-copy-button {
+  --mado-ui-button-height: 2rem;
+  min-inline-size: 4.7rem;
+}
+
+.site-code-example .site-code-example-body {
+  min-block-size: 5rem;
+  padding: 1.25rem;
+  border: 0;
+  border-radius: 0;
+  background: var(--site-surface-soft);
+  font-family: var(--site-font-mono);
+}
+
+.site-check-list,
+.site-cross-list {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-check-list li,
+.site-cross-list li {
+  position: relative;
+  padding-inline-start: 1.65rem;
+  color: var(--site-ink-muted);
+}
+
+.site-check-list li::before,
+.site-cross-list li::before {
+  position: absolute;
+  inset-block-start: 0.05em;
+  inset-inline-start: 0;
+  color: var(--site-positive);
+  font-family: var(--site-font-mono);
+  font-weight: 800;
+  content: "✓";
+}
+
+.site-cross-list li::before {
+  color: var(--site-ink-muted);
+  content: "—";
+}
+
+.site-final-cta {
+  display: grid;
+  justify-items: start;
+  padding-block: clamp(5rem, 10vw, 9rem);
+  border-block-start: 1px solid var(--site-line);
+}
+
+.site-final-cta h2 {
+  max-inline-size: 17ch;
+  margin-block: 0.85rem 1rem;
+  font-size: clamp(2.25rem, 5vw, 4.5rem);
+  letter-spacing: -0.05em;
+}
+
+.site-final-cta > p:not(.site-eyebrow) {
+  max-inline-size: 58ch;
+  margin-block-end: 2rem;
+  color: var(--site-ink-muted);
+  font-size: 1.1rem;
+}
+
+.site-editorial .editorial-section {
+  padding-block: clamp(4rem, 8vw, 7rem);
+  border-block-start: 1px solid var(--site-line);
+}
+
+.editorial-step {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  gap: clamp(1rem, 3vw, 2.5rem);
+  max-inline-size: 54rem;
+  margin-block-end: 2rem;
+}
+
+.editorial-step > span {
+  color: var(--site-line-strong);
+  font-family: var(--site-font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.editorial-step h2 {
+  max-inline-size: 18ch;
+  margin-block: 0.75rem 0;
+  font-size: clamp(2rem, 4vw, 3.3rem);
+  letter-spacing: -0.045em;
+}
+
+.editorial-lead {
+  max-inline-size: 64ch;
+  color: var(--site-ink-muted);
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+}
+
+.editorial-note {
+  max-inline-size: 68ch;
+  margin-block: 1.25rem 0;
+  color: var(--site-ink-muted);
+  font-size: 0.9rem;
+}
+
+.site-not-found {
+  display: grid;
+  min-block-size: 65vh;
+  align-items: center;
+  padding-block: clamp(4rem, 10vw, 8rem);
+}
+
+.site-not-found .mado-ui-content-state {
+  --mado-ui-content-state-min-block-size: 26rem;
+  --mado-ui-content-state-title-size: clamp(1.8rem, 4vw, 3rem);
+}
+
+.site-404-mark {
+  --mado-ui-content-state-media-size: 4.5rem;
+  border-radius: 0.8rem;
+  font-family: var(--site-font-mono);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.site-route-status {
+  display: flex;
+  min-block-size: 12rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  color: var(--site-ink-muted);
+  font-family: var(--site-font-mono);
+  font-size: 0.78rem;
+}
+
+.site-route-status-bar {
+  inline-size: 1.25rem;
+  block-size: 0.2rem;
+  background: var(--site-brand);
+  animation: site-route-pulse 700ms ease-in-out infinite alternate;
+}
+
+.site-route-error {
+  margin: clamp(2rem, 5vw, 5rem) auto;
+  inline-size: min(calc(100% - 2rem), 52rem);
+}
+
+@keyframes site-route-pulse {
+  from {
+    opacity: 0.35;
+    transform: scaleX(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+@media (max-width: 42rem) {
+  .site-page-header {
+    --mado-ui-page-header-title-size: clamp(2.65rem, 14vw, 4.4rem);
+  }
+
+  .site-page-header .mado-ui-page-header-actions {
+    inline-size: 100%;
+    margin-inline-start: 0;
+  }
+
+  .editorial-step {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (forced-colors: active) {
+  .site-code-example,
+  .site-code-example-header,
+  .site-editorial .editorial-section,
+  .site-final-cta {
+    border-color: CanvasText;
+  }
+}

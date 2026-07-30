@@ -1,0 +1,209 @@
+/*
+ * <section class="mado-ui-content-state" data-tone="neutral">
+ *   <div class="mado-ui-content-state-media" aria-hidden="true">...</div>
+ *   <div class="mado-ui-content-state-content">
+ *     <h2 class="mado-ui-content-state-title">No projects yet</h2>
+ *     <p class="mado-ui-content-state-description">
+ *       Create a project to get started.
+ *     </p>
+ *   </div>
+ *   <div class="mado-ui-content-state-actions">...</div>
+ * </section>
+ *
+ * The application owns the semantic container, lifecycle and announcements.
+ * These classes and tones provide presentation only.
+ */
+@layer mado-ui {
+  :where(
+    .mado-ui-content-state,
+    .mado-ui-content-state-media,
+    .mado-ui-content-state-content,
+    .mado-ui-content-state-title,
+    .mado-ui-content-state-description,
+    .mado-ui-content-state-actions
+  ) {
+    box-sizing: border-box;
+  }
+
+  :where(.mado-ui-content-state) {
+    --_mado-ui-content-state-soft: var(
+      --mado-ui-color-neutral-soft,
+      oklch(0.967 0.003 264.5)
+    );
+    --_mado-ui-content-state-accent: var(
+      --mado-ui-color-neutral-text,
+      oklch(0.269 0.006 285.9)
+    );
+
+    display: grid;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+    min-block-size: var(
+      --mado-ui-content-state-min-block-size,
+      16rem
+    );
+    align-content: center;
+    justify-items: var(--mado-ui-content-state-align, center);
+    gap: var(
+      --mado-ui-content-state-gap,
+      var(--mado-ui-space-5, 1.5rem)
+    );
+    padding: var(
+      --mado-ui-content-state-padding,
+      clamp(
+        var(--mado-ui-space-3, 0.75rem),
+        6vw,
+        var(--mado-ui-space-7, 3rem)
+      )
+    );
+    border: 1px dashed
+      var(
+        --mado-ui-content-state-border,
+        var(--mado-ui-color-border, oklch(0.9 0.006 264.5))
+      );
+    border-radius: var(
+      --mado-ui-content-state-radius,
+      var(--mado-ui-radius-md, 0.75rem)
+    );
+    background: var(
+      --mado-ui-content-state-background,
+      var(--mado-ui-color-surface, oklch(1 0 0))
+    );
+    color: var(
+      --mado-ui-content-state-color,
+      var(--mado-ui-color-text, oklch(0.205 0.006 285.9))
+    );
+    text-align: var(--mado-ui-content-state-align, center);
+  }
+
+  :where(.mado-ui-content-state[data-tone="neutral"]) {
+    --_mado-ui-content-state-soft: var(
+      --mado-ui-color-neutral-soft,
+      oklch(0.967 0.003 264.5)
+    );
+    --_mado-ui-content-state-accent: var(
+      --mado-ui-color-neutral-text,
+      oklch(0.269 0.006 285.9)
+    );
+  }
+
+  :where(.mado-ui-content-state[data-tone="info"]) {
+    --_mado-ui-content-state-soft: var(
+      --mado-ui-color-info-soft,
+      oklch(0.95 0.025 255)
+    );
+    --_mado-ui-content-state-accent: var(
+      --mado-ui-color-info-text,
+      oklch(0.43 0.15 255)
+    );
+  }
+
+  :where(.mado-ui-content-state[data-tone="danger"]) {
+    --_mado-ui-content-state-soft: var(
+      --mado-ui-color-danger-soft,
+      oklch(0.95 0.03 25)
+    );
+    --_mado-ui-content-state-accent: var(
+      --mado-ui-color-danger-text,
+      oklch(0.48 0.18 25)
+    );
+  }
+
+  :where(.mado-ui-content-state-media) {
+    display: inline-flex;
+    inline-size: var(--mado-ui-content-state-media-size, 3rem);
+    max-inline-size: 100%;
+    block-size: var(--mado-ui-content-state-media-size, 3rem);
+    align-items: center;
+    justify-content: center;
+    border: 1px solid
+      var(
+        --mado-ui-content-state-media-border,
+        color-mix(
+          in oklch,
+          var(--_mado-ui-content-state-accent) 24%,
+          transparent
+        )
+      );
+    border-radius: var(
+      --mado-ui-content-state-media-radius,
+      var(--mado-ui-radius-full, 999px)
+    );
+    background: var(
+      --mado-ui-content-state-media-background,
+      var(--_mado-ui-content-state-soft)
+    );
+    color: var(
+      --mado-ui-content-state-media-color,
+      var(--_mado-ui-content-state-accent)
+    );
+  }
+
+  :where(.mado-ui-content-state-media > *) {
+    max-inline-size: 100%;
+    max-block-size: 100%;
+  }
+
+  :where(.mado-ui-content-state-content) {
+    display: grid;
+    min-inline-size: 0;
+    inline-size: 100%;
+    max-inline-size: min(
+      100%,
+      var(--mado-ui-content-state-content-max-inline-size, 32rem)
+    );
+    gap: var(--mado-ui-space-1, 0.25rem);
+  }
+
+  :where(.mado-ui-content-state-title) {
+    margin: 0;
+    color: inherit;
+    font-size: var(--mado-ui-content-state-title-size, 1.125rem);
+    font-weight: 650;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+  }
+
+  :where(.mado-ui-content-state-description) {
+    margin: 0;
+    color: var(
+      --mado-ui-content-state-description-color,
+      var(--mado-ui-color-text-muted, oklch(0.46 0.014 264.4))
+    );
+    font-size: 0.875rem;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+  }
+
+  :where(.mado-ui-content-state-actions) {
+    display: flex;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: var(--mado-ui-content-state-align, center);
+    gap: var(
+      --mado-ui-content-state-actions-gap,
+      var(--mado-ui-space-2, 0.5rem)
+    );
+    overflow-wrap: anywhere;
+  }
+
+  :where(.mado-ui-content-state-actions > *) {
+    min-inline-size: 0;
+    max-inline-size: 100%;
+  }
+
+  @media (forced-colors: active) {
+    :where(.mado-ui-content-state) {
+      --mado-ui-content-state-background: Canvas;
+      --mado-ui-content-state-color: CanvasText;
+      --mado-ui-content-state-border: CanvasText;
+      --mado-ui-content-state-description-color: CanvasText;
+      --mado-ui-content-state-media-background: Canvas;
+      --mado-ui-content-state-media-border: CanvasText;
+      --mado-ui-content-state-media-color: CanvasText;
+    }
+  }
+}

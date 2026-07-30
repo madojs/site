@@ -1,0 +1,166 @@
+:root {
+  color-scheme: light;
+
+  --site-brand: oklch(0.55 0.19 255);
+  --site-brand-hover: oklch(0.49 0.18 255);
+  --site-brand-soft: oklch(0.96 0.025 255);
+  --site-ink-strong: oklch(0.17 0.008 270);
+  --site-ink: oklch(0.23 0.01 270);
+  --site-ink-muted: oklch(0.47 0.018 264);
+  --site-line: oklch(0.89 0.008 264);
+  --site-line-strong: oklch(0.79 0.012 264);
+  --site-canvas: oklch(0.985 0.003 250);
+  --site-surface: oklch(1 0 0);
+  --site-surface-soft: oklch(0.965 0.004 260);
+  --site-positive: oklch(0.56 0.13 153);
+  --site-dark: oklch(0.17 0.008 270);
+  --site-dark-soft: oklch(0.22 0.01 270);
+  --site-dark-line: oklch(0.33 0.012 270);
+  --site-dark-text: oklch(0.97 0.003 250);
+  --site-dark-muted: oklch(0.72 0.018 260);
+
+  --site-font-sans:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  --site-font-mono:
+    "SFMono-Regular", "Cascadia Code", "Roboto Mono", Menlo, Consolas,
+    monospace;
+  --site-container: 76rem;
+  --site-reading: 68ch;
+
+  --mado-ui-color-canvas: var(--site-canvas);
+  --mado-ui-color-surface: var(--site-surface);
+  --mado-ui-color-surface-soft: var(--site-surface-soft);
+  --mado-ui-color-text: var(--site-ink);
+  --mado-ui-color-text-muted: var(--site-ink-muted);
+  --mado-ui-color-border: var(--site-line);
+  --mado-ui-color-action: var(--site-brand);
+  --mado-ui-color-action-hover: var(--site-brand-hover);
+  --mado-ui-color-action-contrast: oklch(0.99 0 0);
+  --mado-ui-radius-sm: 0.55rem;
+  --mado-ui-radius-md: 0.8rem;
+  --mado-ui-shadow-panel:
+    0 1px 2px oklch(0.17 0.008 270 / 0.04),
+    0 18px 48px oklch(0.17 0.008 270 / 0.08);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--site-canvas);
+  scroll-behavior: smooth;
+  text-size-adjust: 100%;
+}
+
+body {
+  min-block-size: 100vh;
+  margin: 0;
+  background: var(--site-canvas);
+  color: var(--site-ink);
+  font-family: var(--site-font-sans);
+  font-size: 1rem;
+  line-height: 1.65;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  color: inherit;
+}
+
+img,
+svg {
+  display: block;
+  max-inline-size: 100%;
+}
+
+h1,
+h2,
+h3,
+p,
+figure,
+dl,
+dd {
+  margin-block-start: 0;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--site-ink-strong);
+  line-height: 1.08;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+
+p,
+li,
+dd,
+a {
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
+}
+
+::selection {
+  background: color-mix(in oklch, var(--site-brand) 20%, transparent);
+}
+
+:focus-visible {
+  scroll-margin-block: 6rem;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+@media (forced-colors: active) {
+  :root {
+    --site-brand: LinkText;
+    --site-brand-hover: LinkText;
+    --site-brand-soft: Canvas;
+    --site-ink-strong: CanvasText;
+    --site-ink: CanvasText;
+    --site-ink-muted: CanvasText;
+    --site-line: CanvasText;
+    --site-line-strong: CanvasText;
+    --site-canvas: Canvas;
+    --site-surface: Canvas;
+    --site-surface-soft: Canvas;
+    --site-positive: CanvasText;
+    --site-dark: Canvas;
+    --site-dark-soft: Canvas;
+    --site-dark-line: CanvasText;
+    --site-dark-text: CanvasText;
+    --site-dark-muted: CanvasText;
+  }
+}

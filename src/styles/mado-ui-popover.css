@@ -1,0 +1,262 @@
+/*
+ * <button
+ *   class="mado-ui-popover-invoker"
+ *   type="button"
+ *   popovertarget="resource-details"
+ * >
+ *   Resource details
+ * </button>
+ * <aside
+ *   id="resource-details"
+ *   class="mado-ui-popover"
+ *   popover="auto"
+ *   aria-labelledby="resource-details-title"
+ * >
+ *   <header class="mado-ui-popover-header">
+ *     <h2
+ *       id="resource-details-title"
+ *       class="mado-ui-popover-title"
+ *     >
+ *       Resource cache details
+ *     </h2>
+ *     <p class="mado-ui-popover-description">
+ *       Current client cache contract.
+ *     </p>
+ *   </header>
+ *   <div class="mado-ui-popover-content">...</div>
+ *   <footer class="mado-ui-popover-actions">
+ *     <button
+ *       class="mado-ui-popover-dismiss"
+ *       type="button"
+ *       popovertarget="resource-details"
+ *       popovertargetaction="hide"
+ *     >
+ *       Close details
+ *     </button>
+ *   </footer>
+ * </aside>
+ *
+ * popovertarget owns toggle behavior, the implicit anchor and focus order.
+ * The application chooses semantic markup and owns any product state.
+ */
+@layer mado-ui {
+  :where(
+    .mado-ui-popover,
+    .mado-ui-popover-header,
+    .mado-ui-popover-title,
+    .mado-ui-popover-description,
+    .mado-ui-popover-content,
+    .mado-ui-popover-actions,
+    .mado-ui-popover-invoker,
+    .mado-ui-popover-dismiss
+  ) {
+    box-sizing: border-box;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+  }
+
+  :where(.mado-ui-popover) {
+    display: grid;
+    grid-template-rows: auto minmax(3rem, 1fr) auto;
+    inline-size: min(
+      var(--mado-ui-popover-inline-size, 22rem),
+      calc(
+        100% -
+        var(--mado-ui-space-3, 0.75rem) -
+        var(--mado-ui-space-3, 0.75rem)
+      )
+    );
+    max-inline-size: calc(
+      100% -
+      var(--mado-ui-space-3, 0.75rem) -
+      var(--mado-ui-space-3, 0.75rem)
+    );
+    max-block-size: min(
+      var(--mado-ui-popover-max-block-size, 32rem),
+      calc(
+        100dvb -
+        var(--mado-ui-space-3, 0.75rem) -
+        var(--mado-ui-space-3, 0.75rem)
+      )
+    );
+    gap: var(
+      --mado-ui-popover-gap,
+      var(--mado-ui-space-4, 1rem)
+    );
+    padding: var(
+      --mado-ui-popover-padding,
+      var(--mado-ui-space-4, 1rem)
+    );
+    border: 1px solid
+      var(
+        --mado-ui-popover-border,
+        var(--mado-ui-color-border, oklch(0.9 0.006 264.5))
+      );
+    border-radius: var(
+      --mado-ui-popover-radius,
+      var(--mado-ui-radius-md, 0.75rem)
+    );
+    background: var(
+      --mado-ui-popover-background,
+      var(--mado-ui-color-surface, oklch(1 0 0))
+    );
+    color: var(
+      --mado-ui-popover-color,
+      var(--mado-ui-color-text, oklch(0.205 0.006 285.9))
+    );
+    box-shadow: var(
+      --mado-ui-popover-shadow,
+      var(
+        --mado-ui-shadow-panel,
+        0 1px 2px oklch(0.205 0.006 285.9 / 0.04),
+        0 12px 32px oklch(0.205 0.006 285.9 / 0.12)
+      )
+    );
+    font: inherit;
+    overflow: auto;
+    overscroll-behavior-block: contain;
+    text-align: start;
+  }
+
+  :where(.mado-ui-popover-header) {
+    display: grid;
+    gap: var(
+      --mado-ui-popover-header-gap,
+      var(--mado-ui-space-1, 0.25rem)
+    );
+  }
+
+  :where(.mado-ui-popover-title) {
+    margin: 0;
+    color: inherit;
+    font-size: 1.0625rem;
+    font-weight: 650;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+  }
+
+  :where(.mado-ui-popover-description) {
+    margin: 0;
+    color: var(
+      --mado-ui-popover-description-color,
+      var(--mado-ui-color-text-muted, oklch(0.46 0.014 264.4))
+    );
+    font-size: 0.875rem;
+    line-height: 1.55;
+    overflow-wrap: anywhere;
+  }
+
+  :where(.mado-ui-popover-content) {
+    display: grid;
+    gap: var(
+      --mado-ui-popover-content-gap,
+      var(--mado-ui-space-3, 0.75rem)
+    );
+    line-height: 1.55;
+    overflow: auto;
+    overscroll-behavior-block: contain;
+    overflow-wrap: anywhere;
+  }
+
+  :where(.mado-ui-popover-actions) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: var(
+      --mado-ui-popover-actions-justify,
+      flex-end
+    );
+    gap: var(
+      --mado-ui-popover-actions-gap,
+      var(--mado-ui-space-2, 0.5rem)
+    );
+  }
+
+  :where(.mado-ui-popover-actions > *) {
+    min-inline-size: 0;
+    max-inline-size: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  :where(
+    .mado-ui-popover-invoker,
+    .mado-ui-popover-dismiss
+  ) {
+    display: none;
+  }
+
+  @supports selector(:popover-open) {
+    :where(.mado-ui-popover:not(:popover-open)) {
+      display: none;
+    }
+
+    :where(.mado-ui-popover:popover-open) {
+      display: grid;
+      position: fixed;
+      inset: 0;
+      inline-size: min(
+        var(--mado-ui-popover-inline-size, 22rem),
+        calc(
+          100dvi -
+          var(--mado-ui-space-3, 0.75rem) -
+          var(--mado-ui-space-3, 0.75rem)
+        )
+      );
+      max-inline-size: calc(
+        100dvi -
+        var(--mado-ui-space-3, 0.75rem) -
+        var(--mado-ui-space-3, 0.75rem)
+      );
+      margin: auto;
+    }
+
+    :where(
+      .mado-ui-popover-invoker,
+      .mado-ui-popover-dismiss
+    ) {
+      display: inline-flex;
+    }
+  }
+
+  @supports selector(:popover-open) {
+    @supports (position-area: block-end) {
+      :where(.mado-ui-popover:popover-open) {
+        inset: auto;
+        margin: var(
+          --mado-ui-popover-offset,
+          var(--mado-ui-space-2, 0.5rem)
+        );
+        position-anchor: auto;
+        position-area: var(
+          --mado-ui-popover-position-area,
+          block-end span-inline-end
+        );
+        position-try-fallbacks:
+          flip-block,
+          flip-inline,
+          flip-block flip-inline;
+      }
+
+      @media (max-width: 30rem) {
+        :where(.mado-ui-popover:popover-open) {
+          inset: 0;
+          margin: auto;
+          position-anchor: none;
+          position-area: none;
+          position-try-fallbacks: none;
+        }
+      }
+    }
+  }
+
+  @media (forced-colors: active) {
+    :where(.mado-ui-popover) {
+      --mado-ui-popover-background: Canvas;
+      --mado-ui-popover-border: CanvasText;
+      --mado-ui-popover-color: CanvasText;
+      --mado-ui-popover-description-color: CanvasText;
+      --mado-ui-popover-shadow: none;
+    }
+  }
+}

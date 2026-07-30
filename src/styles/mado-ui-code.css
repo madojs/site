@@ -1,0 +1,169 @@
+/*
+ * <code class="mado-ui-code">const ready = true;</code>
+ * <pre class="mado-ui-code-block" tabindex="0"><code>npm create mado</code></pre>
+ * <kbd class="mado-ui-kbd">Ctrl</kbd>
+ *
+ * Keep tabindex="0" on a scrollable code block so keyboard users can reach and
+ * scroll it. The native code, pre and kbd elements retain their semantics.
+ */
+@layer mado-ui {
+  :where(
+    code.mado-ui-code,
+    pre.mado-ui-code-block,
+    kbd.mado-ui-kbd
+  ) {
+    box-sizing: border-box;
+    font-family: var(
+      --mado-ui-code-font-family,
+      ui-monospace,
+      "SFMono-Regular",
+      "Cascadia Code",
+      "Roboto Mono",
+      Menlo,
+      Consolas,
+      monospace
+    );
+  }
+
+  :where(code.mado-ui-code) {
+    padding: var(--mado-ui-code-padding, 0.12em 0.32em);
+    border: 1px solid
+      var(
+        --mado-ui-code-border,
+        var(--mado-ui-color-border, oklch(0.9 0.006 264.5))
+      );
+    border-radius: var(
+      --mado-ui-code-radius,
+      var(--mado-ui-radius-sm, 0.5rem)
+    );
+    background: var(
+      --mado-ui-code-background,
+      var(--mado-ui-color-surface-soft, oklch(0.967 0.003 264.5))
+    );
+    color: var(
+      --mado-ui-code-color,
+      var(--mado-ui-color-text, oklch(0.205 0.006 285.9))
+    );
+    font-size: var(--mado-ui-code-font-size, 0.875em);
+    font-weight: var(--mado-ui-code-font-weight, 500);
+    overflow-wrap: anywhere;
+  }
+
+  :where(pre.mado-ui-code-block) {
+    display: block;
+    max-inline-size: 100%;
+    margin: 0;
+    padding: var(
+      --mado-ui-code-block-padding,
+      var(--mado-ui-space-4, 1rem)
+    );
+    overflow: auto;
+    border: 1px solid
+      var(
+        --mado-ui-code-block-border,
+        var(--mado-ui-color-border, oklch(0.9 0.006 264.5))
+      );
+    border-radius: var(
+      --mado-ui-code-block-radius,
+      var(--mado-ui-radius-md, 0.75rem)
+    );
+    background: var(
+      --mado-ui-code-block-background,
+      var(--mado-ui-color-surface-soft, oklch(0.967 0.003 264.5))
+    );
+    color: var(
+      --mado-ui-code-block-color,
+      var(--mado-ui-color-text, oklch(0.205 0.006 285.9))
+    );
+    font-size: var(--mado-ui-code-block-font-size, 0.875rem);
+    line-height: var(--mado-ui-code-block-line-height, 1.65);
+    scrollbar-gutter: stable;
+    tab-size: var(--mado-ui-code-tab-size, 2);
+    white-space: pre;
+  }
+
+  :where(pre.mado-ui-code-block > code.mado-ui-code) {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    overflow-wrap: normal;
+  }
+
+  :where(pre.mado-ui-code-block:focus-visible) {
+    outline: 2px solid
+      var(--mado-ui-color-action, oklch(0.205 0.006 285.9));
+    outline-offset: 2px;
+    box-shadow: var(
+      --mado-ui-code-block-focus-ring,
+      var(
+        --mado-ui-focus-ring,
+        0 0 0 3px oklch(0.205 0.006 285.9 / 0.24)
+      )
+    );
+  }
+
+  :where(kbd.mado-ui-kbd) {
+    display: inline-flex;
+    min-block-size: 1.5em;
+    align-items: center;
+    justify-content: center;
+    padding: var(--mado-ui-kbd-padding, 0.08em 0.42em);
+    border: 1px solid
+      var(
+        --mado-ui-kbd-border,
+        var(--mado-ui-color-border, oklch(0.9 0.006 264.5))
+      );
+    border-radius: var(
+      --mado-ui-kbd-radius,
+      var(--mado-ui-radius-sm, 0.5rem)
+    );
+    background: var(
+      --mado-ui-kbd-background,
+      var(--mado-ui-color-surface, oklch(1 0 0))
+    );
+    color: var(
+      --mado-ui-kbd-color,
+      var(--mado-ui-color-text, oklch(0.205 0.006 285.9))
+    );
+    box-shadow: var(
+      --mado-ui-kbd-shadow,
+      0 1px 0
+        color-mix(
+          in oklch,
+          var(--mado-ui-color-text, oklch(0.205 0.006 285.9)) 18%,
+          transparent
+        )
+    );
+    font-size: var(--mado-ui-kbd-font-size, 0.75em);
+    font-weight: var(--mado-ui-kbd-font-weight, 500);
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  @media (forced-colors: active) {
+    :where(
+      code.mado-ui-code,
+      pre.mado-ui-code-block,
+      kbd.mado-ui-kbd
+    ) {
+      border-color: CanvasText;
+      background: Canvas;
+      color: CanvasText;
+    }
+
+    :where(pre.mado-ui-code-block:focus-visible) {
+      outline-color: Highlight;
+      box-shadow: none;
+    }
+
+    :where(pre.mado-ui-code-block > code.mado-ui-code) {
+      border-color: transparent;
+      background: transparent;
+      color: inherit;
+    }
+  }
+}

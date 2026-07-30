@@ -1,0 +1,99 @@
+.site-editorial .site-code-example {
+  margin-block-start: 2rem;
+}
+
+.start-file-map {
+  display: grid;
+  grid-template-columns: minmax(18rem, 0.75fr) minmax(22rem, 1.25fr);
+  gap: clamp(2rem, 6vw, 6rem);
+  align-items: start;
+}
+
+.start-file-map .mado-ui-code-block {
+  min-block-size: 19rem;
+  padding: 1.5rem;
+  background: var(--site-dark);
+  color: var(--site-dark-text);
+  line-height: 1.85;
+}
+
+.start-file-map dl {
+  display: grid;
+  margin: 0;
+  border-block-start: 1px solid var(--site-line);
+}
+
+.start-file-map dl > div {
+  display: grid;
+  grid-template-columns: minmax(8rem, 0.45fr) minmax(0, 1fr);
+  gap: 1.5rem;
+  padding-block: 1.25rem;
+  border-block-end: 1px solid var(--site-line);
+}
+
+.start-file-map dt {
+  font-weight: 700;
+}
+
+.start-file-map dd {
+  margin: 0;
+  color: var(--site-ink-muted);
+}
+
+.start-contracts {
+  background: var(--site-surface);
+}
+
+.start-code-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-block-start: 3rem;
+}
+
+.start-code-grid .site-code-example {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  margin: 0;
+}
+
+.start-code-grid .site-code-example-body {
+  block-size: 100%;
+  min-block-size: 19rem;
+  font-size: 0.77rem;
+}
+
+.start-release-grid {
+  display: grid;
+  grid-template-columns: minmax(18rem, 1fr) minmax(20rem, 0.8fr);
+  gap: clamp(2rem, 6vw, 6rem);
+  align-items: start;
+}
+
+.start-release-grid .site-code-example {
+  margin: 0;
+}
+
+@media (max-width: 64rem) {
+  .start-code-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .start-code-grid .site-code-example-body {
+    min-block-size: auto;
+  }
+}
+
+@media (max-width: 50rem) {
+  .start-file-map,
+  .start-release-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 34rem) {
+  .start-file-map dl > div {
+    grid-template-columns: 1fr;
+    gap: 0.55rem;
+  }
+}

@@ -1,0 +1,108 @@
+@layer mado-ui {
+  :root,
+  [data-mado-ui-theme="light"] {
+    color-scheme: light;
+
+    --mado-ui-color-canvas: oklch(0.985 0.002 247.8);
+    --mado-ui-color-surface: oklch(1 0 0);
+    --mado-ui-color-surface-soft: oklch(0.967 0.003 264.5);
+    --mado-ui-color-text: oklch(0.205 0.006 285.9);
+    --mado-ui-color-text-muted: oklch(0.46 0.014 264.4);
+    --mado-ui-color-border: oklch(0.9 0.006 264.5);
+    --mado-ui-color-action: oklch(0.205 0.006 285.9);
+    --mado-ui-color-action-hover: oklch(0.269 0.006 285.9);
+    --mado-ui-color-action-contrast: oklch(0.985 0 0);
+
+    --mado-ui-color-neutral-soft: oklch(0.967 0.003 264.5);
+    --mado-ui-color-neutral-text: oklch(0.269 0.006 285.9);
+    --mado-ui-color-info-soft: oklch(0.95 0.025 255);
+    --mado-ui-color-info-text: oklch(0.43 0.15 255);
+    --mado-ui-color-success-soft: oklch(0.95 0.04 155);
+    --mado-ui-color-success-text: oklch(0.4 0.11 155);
+    --mado-ui-color-warning-soft: oklch(0.96 0.05 85);
+    --mado-ui-color-warning-text: oklch(0.45 0.1 70);
+    --mado-ui-color-danger-soft: oklch(0.95 0.03 25);
+    --mado-ui-color-danger-text: oklch(0.48 0.18 25);
+    --mado-ui-color-danger: oklch(0.577 0.245 27.3);
+    --mado-ui-color-danger-hover: oklch(0.505 0.213 27.5);
+    --mado-ui-color-danger-contrast: oklch(0.985 0 0);
+
+    --mado-ui-space-1: 0.25rem;
+    --mado-ui-space-2: 0.5rem;
+    --mado-ui-space-3: 0.75rem;
+    --mado-ui-space-4: 1rem;
+    --mado-ui-space-5: 1.5rem;
+    --mado-ui-space-6: 2rem;
+    --mado-ui-space-7: 3rem;
+    --mado-ui-space-8: 4rem;
+
+    --mado-ui-radius-sm: 0.5rem;
+    --mado-ui-radius-md: 0.75rem;
+    --mado-ui-radius-full: 999px;
+    --mado-ui-shadow-panel:
+      0 1px 2px oklch(0.205 0.006 285.9 / 0.04),
+      0 12px 36px oklch(0.205 0.006 285.9 / 0.08);
+    --mado-ui-focus-ring: 0 0 0 3px
+      color-mix(in oklch, var(--mado-ui-color-action) 24%, transparent);
+  }
+
+  [data-mado-ui-theme="dark"] {
+    color-scheme: dark;
+
+    --mado-ui-color-canvas: oklch(0.145 0.005 285.8);
+    --mado-ui-color-surface: oklch(0.18 0.005 285.8);
+    --mado-ui-color-surface-soft: oklch(0.235 0.006 285.8);
+    --mado-ui-color-text: oklch(0.985 0 0);
+    --mado-ui-color-text-muted: oklch(0.705 0.015 264.4);
+    --mado-ui-color-border: oklch(0.3 0.008 285.8);
+    --mado-ui-color-action: oklch(0.985 0 0);
+    --mado-ui-color-action-hover: oklch(0.9 0.005 285.8);
+    --mado-ui-color-action-contrast: oklch(0.205 0.006 285.9);
+
+    --mado-ui-color-neutral-soft: oklch(0.269 0.006 285.9);
+    --mado-ui-color-neutral-text: oklch(0.9 0.005 285.8);
+    --mado-ui-color-info-soft: oklch(0.27 0.055 260);
+    --mado-ui-color-info-text: oklch(0.81 0.09 255);
+    --mado-ui-color-success-soft: oklch(0.27 0.05 155);
+    --mado-ui-color-success-text: oklch(0.84 0.1 155);
+    --mado-ui-color-warning-soft: oklch(0.29 0.05 75);
+    --mado-ui-color-warning-text: oklch(0.88 0.11 85);
+    --mado-ui-color-danger-soft: oklch(0.27 0.06 25);
+    --mado-ui-color-danger-text: oklch(0.81 0.11 25);
+    --mado-ui-color-danger: oklch(0.65 0.2 25);
+    --mado-ui-color-danger-hover: oklch(0.72 0.18 25);
+    --mado-ui-color-danger-contrast: oklch(0.145 0.02 25);
+
+    --mado-ui-shadow-panel:
+      0 1px 2px oklch(0 0 0 / 0.2),
+      0 12px 36px oklch(0 0 0 / 0.3);
+  }
+
+  @media (forced-colors: active) {
+    :root,
+    [data-mado-ui-theme] {
+      --mado-ui-color-canvas: Canvas;
+      --mado-ui-color-surface: Canvas;
+      --mado-ui-color-surface-soft: Canvas;
+      --mado-ui-color-text: CanvasText;
+      --mado-ui-color-text-muted: CanvasText;
+      --mado-ui-color-border: CanvasText;
+      --mado-ui-color-action: LinkText;
+      --mado-ui-color-action-hover: LinkText;
+      --mado-ui-color-action-contrast: Canvas;
+      --mado-ui-color-neutral-soft: Canvas;
+      --mado-ui-color-neutral-text: CanvasText;
+      --mado-ui-color-info-soft: Canvas;
+      --mado-ui-color-info-text: CanvasText;
+      --mado-ui-color-success-soft: Canvas;
+      --mado-ui-color-success-text: CanvasText;
+      --mado-ui-color-warning-soft: Canvas;
+      --mado-ui-color-warning-text: CanvasText;
+      --mado-ui-color-danger-soft: Canvas;
+      --mado-ui-color-danger-text: CanvasText;
+      --mado-ui-color-danger: CanvasText;
+      --mado-ui-color-danger-hover: CanvasText;
+      --mado-ui-color-danger-contrast: Canvas;
+    }
+  }
+}

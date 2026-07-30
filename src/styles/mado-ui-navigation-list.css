@@ -1,0 +1,192 @@
+/*
+ * <nav
+ *   class="mado-ui-navigation-list"
+ *   aria-labelledby="project-navigation-title"
+ * >
+ *   <h2
+ *     id="project-navigation-title"
+ *     class="mado-ui-navigation-list-label"
+ *   >Project</h2>
+ *   <ul class="mado-ui-navigation-list-items">
+ *     <li class="mado-ui-navigation-list-item">
+ *       <a
+ *         class="mado-ui-navigation-list-link"
+ *         href="/overview"
+ *         aria-current="page"
+ *       >Overview</a>
+ *     </li>
+ *   </ul>
+ * </nav>
+ *
+ * The application owns landmark naming, URLs and current-location semantics.
+ * data-layout changes wrapping presentation only; links keep native behavior.
+ */
+@layer mado-ui {
+  :where(
+    .mado-ui-navigation-list,
+    .mado-ui-navigation-list-label,
+    .mado-ui-navigation-list-items,
+    .mado-ui-navigation-list-item,
+    .mado-ui-navigation-list-link
+  ) {
+    box-sizing: border-box;
+  }
+
+  :where(.mado-ui-navigation-list) {
+    display: grid;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+    gap: var(
+      --mado-ui-navigation-list-gap,
+      var(--mado-ui-space-2, 0.5rem)
+    );
+  }
+
+  :where(.mado-ui-navigation-list-label) {
+    min-inline-size: 0;
+    max-inline-size: 100%;
+    margin: 0;
+    color: var(
+      --mado-ui-navigation-list-label-color,
+      var(--mado-ui-color-text-muted, oklch(0.46 0.014 264.4))
+    );
+    font-size: 0.75rem;
+    font-weight: 650;
+    line-height: 1.4;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+  }
+
+  :where(.mado-ui-navigation-list-items) {
+    display: grid;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+    gap: var(
+      --mado-ui-navigation-list-items-gap,
+      var(--mado-ui-space-1, 0.25rem)
+    );
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  :where(.mado-ui-navigation-list-item) {
+    min-inline-size: 0;
+    max-inline-size: 100%;
+  }
+
+  :where(.mado-ui-navigation-list-link) {
+    display: flex;
+    min-block-size: var(
+      --mado-ui-navigation-list-link-min-height,
+      2.5rem
+    );
+    min-inline-size: 0;
+    max-inline-size: 100%;
+    align-items: center;
+    gap: var(
+      --mado-ui-navigation-list-link-gap,
+      var(--mado-ui-space-2, 0.5rem)
+    );
+    padding: var(
+      --mado-ui-navigation-list-link-padding,
+      var(--mado-ui-space-2, 0.5rem) var(--mado-ui-space-3, 0.75rem)
+    );
+    border: 1px solid transparent;
+    border-radius: var(
+      --mado-ui-navigation-list-link-radius,
+      var(--mado-ui-radius-sm, 0.5rem)
+    );
+    color: var(
+      --mado-ui-navigation-list-link-color,
+      var(--mado-ui-color-text, oklch(0.205 0.006 285.9))
+    );
+    font: inherit;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.4;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+
+  :where(
+    .mado-ui-navigation-list-link[aria-current="page"],
+    .mado-ui-navigation-list-link[aria-current="location"]
+  ) {
+    border-color: var(
+      --mado-ui-navigation-list-current-border,
+      var(--mado-ui-color-border, oklch(0.9 0.006 264.5))
+    );
+    background: var(
+      --mado-ui-navigation-list-current-background,
+      var(--mado-ui-color-surface-soft, oklch(0.967 0.003 264.5))
+    );
+    color: var(
+      --mado-ui-navigation-list-current-color,
+      var(--mado-ui-color-text, oklch(0.205 0.006 285.9))
+    );
+    font-weight: 650;
+  }
+
+  :where(.mado-ui-navigation-list-link:focus-visible) {
+    outline: 2px solid
+      var(--mado-ui-color-action, oklch(0.205 0.006 285.9));
+    outline-offset: 2px;
+    box-shadow: var(
+      --mado-ui-navigation-list-focus-ring,
+      var(
+        --mado-ui-focus-ring,
+        0 0 0 3px oklch(0.205 0.006 285.9 / 0.24)
+      )
+    );
+  }
+
+  :where(
+    .mado-ui-navigation-list[data-layout="horizontal"]
+      > .mado-ui-navigation-list-items
+  ) {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  :where(
+    .mado-ui-navigation-list[data-layout="horizontal"]
+      > .mado-ui-navigation-list-items
+      > .mado-ui-navigation-list-item
+  ) {
+    flex: 0 1 auto;
+  }
+
+  @media (hover: hover) {
+    :where(
+      .mado-ui-navigation-list-link:not([aria-current]):hover
+    ) {
+      background: var(
+        --mado-ui-navigation-list-link-hover-background,
+        var(--mado-ui-color-surface-soft, oklch(0.967 0.003 264.5))
+      );
+      color: var(
+        --mado-ui-navigation-list-link-hover-color,
+        var(--mado-ui-color-action-hover, oklch(0.269 0.006 285.9))
+      );
+    }
+  }
+
+  @media (forced-colors: active) {
+    :where(.mado-ui-navigation-list) {
+      --mado-ui-navigation-list-label-color: CanvasText;
+      --mado-ui-navigation-list-link-color: LinkText;
+      --mado-ui-navigation-list-link-hover-background: Canvas;
+      --mado-ui-navigation-list-link-hover-color: LinkText;
+      --mado-ui-navigation-list-current-background: Canvas;
+      --mado-ui-navigation-list-current-border: Highlight;
+      --mado-ui-navigation-list-current-color: CanvasText;
+    }
+
+    :where(.mado-ui-navigation-list-link:focus-visible) {
+      outline-color: Highlight;
+      box-shadow: none;
+    }
+  }
+}

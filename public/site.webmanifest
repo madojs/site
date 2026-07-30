@@ -1,0 +1,16 @@
+{
+  "name": "Mado",
+  "short_name": "Mado",
+  "description": "A native-first frontend framework you can own.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8f9fb",
+  "theme_color": "#f8f9fb",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

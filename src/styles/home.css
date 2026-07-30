@@ -1,0 +1,476 @@
+.home-hero {
+  display: grid;
+  min-block-size: calc(100vh - 4.5rem);
+  grid-template-columns: minmax(0, 1.15fr) minmax(22rem, 0.85fr);
+  align-items: center;
+  gap: clamp(3rem, 8vw, 8rem);
+  padding-block: clamp(4rem, 8vw, 7rem);
+}
+
+.home-hero-copy {
+  --mado-ui-stack-gap: 1.3rem;
+  align-items: start;
+}
+
+.home-hero h1 {
+  max-inline-size: 11.5ch;
+  margin: 0;
+  font-size: clamp(4rem, 8.3vw, 7rem);
+  font-weight: 720;
+  letter-spacing: -0.072em;
+  line-height: 0.92;
+}
+
+.home-hero-lead {
+  margin: 0;
+  color: var(--site-ink-strong);
+  font-size: clamp(1.25rem, 2.2vw, 1.65rem);
+  font-weight: 580;
+  letter-spacing: -0.025em;
+}
+
+.home-hero-description {
+  max-inline-size: 61ch;
+  margin: 0;
+  color: var(--site-ink-muted);
+  font-size: clamp(1rem, 1.5vw, 1.12rem);
+}
+
+.home-hero-actions {
+  --mado-ui-cluster-gap: 0.7rem;
+  margin-block-start: 0.45rem;
+}
+
+.home-hero-status {
+  margin-block: 0.4rem 0;
+}
+
+.home-proof-window {
+  container-type: inline-size;
+  overflow: hidden;
+  border: 1px solid var(--site-dark-line);
+  border-radius: 0.9rem;
+  background: var(--site-dark);
+  color: var(--site-dark-text);
+  box-shadow:
+    0 1px 0 oklch(1 0 0 / 0.08) inset,
+    0 28px 70px oklch(0.17 0.008 270 / 0.16);
+  font-family: var(--site-font-mono);
+  transform: translateY(1rem);
+}
+
+.home-proof-window > header,
+.home-proof-window > footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 1.1rem;
+  color: var(--site-dark-muted);
+  font-size: 0.68rem;
+  letter-spacing: 0.02em;
+}
+
+.home-proof-window > header {
+  border-block-end: 1px solid var(--site-dark-line);
+}
+
+.home-proof-window > header span:last-child {
+  color: oklch(0.76 0.12 153);
+}
+
+.home-proof-body {
+  display: grid;
+  padding: 0.45rem 1.1rem;
+}
+
+.home-proof-body p {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+  margin: 0;
+  padding-block: 1.15rem;
+  border-block-end: 1px solid var(--site-dark-line);
+  font-size: 0.78rem;
+}
+
+.home-proof-body p:last-child {
+  border: 0;
+}
+
+.home-proof-body span {
+  color: var(--site-dark-muted);
+}
+
+.home-proof-body strong {
+  min-inline-size: 0;
+  color: var(--site-dark-text);
+  font-weight: 620;
+  overflow-wrap: anywhere;
+  text-align: end;
+}
+
+.home-proof-window > footer {
+  border-block-start: 1px solid var(--site-dark-line);
+  background: var(--site-dark-soft);
+}
+
+.home-proof-window > footer code {
+  color: var(--site-dark-text);
+  font: inherit;
+  overflow-wrap: anywhere;
+}
+
+.home-proof-window > footer span {
+  color: oklch(0.76 0.12 153);
+  font-weight: 800;
+}
+
+.home-principles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-block-start: clamp(3rem, 6vw, 5rem);
+  border-block: 1px solid var(--site-line);
+}
+
+.home-principles article {
+  padding: 2rem clamp(1rem, 3vw, 2.5rem) 2.25rem 0;
+}
+
+.home-principles article + article {
+  padding-inline-start: clamp(1rem, 3vw, 2.5rem);
+  border-inline-start: 1px solid var(--site-line);
+}
+
+.home-principles article > span,
+.home-contract-index {
+  color: var(--site-line-strong);
+  font-family: var(--site-font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.home-principles h3 {
+  margin-block: 2.5rem 0.7rem;
+  font-size: 1.25rem;
+  letter-spacing: -0.025em;
+}
+
+.home-principles p {
+  margin: 0;
+  color: var(--site-ink-muted);
+  font-size: 0.94rem;
+}
+
+.home-contracts {
+  background: var(--site-dark);
+  color: var(--site-dark-text);
+}
+
+.home-contracts .site-section-heading h2 {
+  color: var(--site-dark-text);
+}
+
+.home-contract-list {
+  display: grid;
+  margin-block-start: clamp(3rem, 6vw, 5rem);
+  border-block-start: 1px solid var(--site-dark-line);
+}
+
+.home-contract-list article {
+  display: grid;
+  grid-template-columns: 3rem minmax(16rem, 1fr) minmax(14rem, auto);
+  align-items: center;
+  gap: clamp(1rem, 4vw, 4rem);
+  padding-block: clamp(1.75rem, 4vw, 3rem);
+  border-block-end: 1px solid var(--site-dark-line);
+}
+
+.home-contract-list h3 {
+  margin-block-end: 0.55rem;
+  color: var(--site-dark-text);
+  font-size: clamp(1.35rem, 2.4vw, 2rem);
+  letter-spacing: -0.03em;
+}
+
+.home-contract-list p {
+  max-inline-size: 58ch;
+  margin: 0;
+  color: var(--site-dark-muted);
+}
+
+.home-contract-list .mado-ui-code {
+  --mado-ui-code-border: var(--site-dark-line);
+  --mado-ui-code-background: var(--site-dark-soft);
+  --mado-ui-code-color: var(--site-dark-text);
+  justify-self: end;
+  padding: 0.55rem 0.7rem;
+  white-space: nowrap;
+}
+
+.home-split {
+  display: grid;
+  grid-template-columns: minmax(18rem, 0.65fr) minmax(0, 1.35fr);
+  gap: clamp(3rem, 8vw, 8rem);
+}
+
+.home-split-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  border-block-start: 1px solid var(--site-line);
+}
+
+.home-split-grid article {
+  padding: 1.8rem 1.8rem 0 0;
+}
+
+.home-split-grid article + article {
+  padding-inline: 1.8rem 0;
+  border-inline-start: 1px solid var(--site-line);
+}
+
+.home-split-label {
+  color: var(--site-brand);
+  font-family: var(--site-font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.home-split-grid h3 {
+  margin-block-end: 1rem;
+  font-size: clamp(1.45rem, 2.4vw, 2rem);
+  letter-spacing: -0.035em;
+}
+
+.home-split-grid article > p:not(.home-split-label) {
+  color: var(--site-ink-muted);
+}
+
+.home-split-grid ul {
+  margin-block-start: 1.5rem;
+}
+
+.home-dogfood {
+  border-block: 1px solid color-mix(in oklch, var(--site-brand) 15%, var(--site-line));
+  background: var(--site-brand-soft);
+}
+
+.home-dogfood-grid {
+  display: grid;
+  grid-template-columns: minmax(18rem, 0.85fr) minmax(22rem, 1.15fr);
+  align-items: center;
+  gap: clamp(3rem, 8vw, 8rem);
+}
+
+.home-dogfood .site-section-heading > p:last-of-type {
+  margin-block-end: 1.5rem;
+}
+
+.home-dogfood .site-code-example {
+  border-color: color-mix(in oklch, var(--site-brand) 18%, var(--site-line));
+}
+
+.home-capability-grid {
+  --mado-ui-grid-min: 21rem;
+  --mado-ui-grid-gap: 0;
+  margin-block-start: clamp(3rem, 6vw, 5rem);
+  border-block-start: 1px solid var(--site-line);
+  border-inline-start: 1px solid var(--site-line);
+}
+
+.home-capability-grid article {
+  min-block-size: 11rem;
+  padding: 1.6rem;
+  border-block-end: 1px solid var(--site-line);
+  border-inline-end: 1px solid var(--site-line);
+}
+
+.home-capability-grid h3 {
+  margin-block-end: 2rem;
+  font-size: 1rem;
+}
+
+.home-capability-grid p {
+  margin: 0;
+  color: var(--site-ink-muted);
+  font-size: 0.92rem;
+}
+
+.home-agents {
+  background: var(--site-dark);
+  color: var(--site-dark-text);
+}
+
+.home-agents-grid {
+  display: grid;
+  grid-template-columns: minmax(18rem, 0.8fr) minmax(18rem, 1.2fr);
+  gap: clamp(3rem, 8vw, 8rem);
+}
+
+.home-agents .site-section-heading h2 {
+  color: var(--site-dark-text);
+}
+
+.home-agents-copy {
+  display: grid;
+  align-content: center;
+  gap: 1.5rem;
+  max-inline-size: 60ch;
+}
+
+.home-agents-copy p {
+  margin: 0;
+  color: var(--site-dark-muted);
+  font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+}
+
+.home-agents-copy .mado-ui-code {
+  --mado-ui-code-border: var(--site-dark-line);
+  --mado-ui-code-background: var(--site-dark-soft);
+  --mado-ui-code-color: var(--site-dark-text);
+}
+
+.home-boundary {
+  display: grid;
+  grid-template-columns: minmax(18rem, 0.8fr) minmax(20rem, 1.2fr);
+  align-items: end;
+  gap: clamp(3rem, 8vw, 8rem);
+}
+
+.home-boundary-line {
+  display: grid;
+  grid-template-columns: auto minmax(1rem, 1fr) auto minmax(1rem, 1fr) auto;
+  align-items: center;
+  gap: 0.8rem;
+  padding-block: 1.3rem;
+  border-block: 1px solid var(--site-line);
+  color: var(--site-ink-muted);
+  font-family: var(--site-font-mono);
+  font-size: 0.72rem;
+}
+
+.home-boundary-line i {
+  block-size: 1px;
+  background: var(--site-line-strong);
+}
+
+.home-boundary-line strong {
+  color: var(--site-brand);
+  font: inherit;
+  font-weight: 800;
+}
+
+@media (max-width: 64rem) {
+  .home-hero {
+    min-block-size: auto;
+    grid-template-columns: 1fr;
+  }
+
+  .home-proof-window {
+    max-inline-size: 44rem;
+    transform: none;
+  }
+
+  .home-split,
+  .home-dogfood-grid,
+  .home-agents-grid,
+  .home-boundary {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 48rem) {
+  .home-hero {
+    padding-block-start: 3.5rem;
+  }
+
+  .home-hero h1 {
+    font-size: clamp(3rem, 15.5vw, 5rem);
+  }
+
+  .home-principles,
+  .home-split-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-principles article,
+  .home-principles article + article,
+  .home-split-grid article,
+  .home-split-grid article + article {
+    padding: 1.75rem 0;
+    border-inline-start: 0;
+    border-block-end: 1px solid var(--site-line);
+  }
+
+  .home-principles article:last-child,
+  .home-split-grid article:last-child {
+    border-block-end: 0;
+  }
+
+  .home-principles h3 {
+    margin-block-start: 1.5rem;
+  }
+
+  .home-contract-list article {
+    grid-template-columns: 2rem minmax(0, 1fr);
+  }
+
+  .home-contract-list .mado-ui-code {
+    grid-column: 2;
+    justify-self: start;
+    max-inline-size: 100%;
+    white-space: normal;
+  }
+
+  .home-boundary-line {
+    grid-template-columns: 1fr;
+    justify-items: start;
+  }
+
+  .home-boundary-line i {
+    inline-size: 1px;
+    block-size: 1.5rem;
+    margin-inline-start: 0.3rem;
+  }
+}
+
+@container (max-width: 360px) {
+  .home-proof-body p {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+  }
+
+  .home-proof-body strong {
+    text-align: start;
+  }
+}
+
+@media (forced-colors: active) {
+  .home-proof-window,
+  .home-proof-window > header,
+  .home-proof-window > footer,
+  .home-proof-body p,
+  .home-principles,
+  .home-principles article + article,
+  .home-contract-list,
+  .home-contract-list article,
+  .home-split-grid,
+  .home-split-grid article + article,
+  .home-dogfood,
+  .home-capability-grid,
+  .home-capability-grid article,
+  .home-boundary-line {
+    border-color: CanvasText;
+  }
+
+  .home-proof-window,
+  .home-contracts,
+  .home-agents {
+    background: Canvas;
+    color: CanvasText;
+    box-shadow: none;
+  }
+}
